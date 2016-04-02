@@ -1,6 +1,7 @@
 package br.com.mm.ufpel.fia.exaustiva.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -21,7 +22,7 @@ public class Board {
     }
 
     public void print(BoardState boardState) {
-        System.out.printf("Nível %s\n",boardState.getHeight());
+        System.out.printf("Nível %s\n", boardState.getHeight());
         for (int y = 0; y < this.size; y++) {
             for (int x = 0; x < this.size; x++) {
                 System.out.printf("%d\t", boardState.getSequence()[y][x]);
@@ -37,7 +38,7 @@ public class Board {
 
     public BoardState shuffle(int numVezes, BoardState boardState) {
         for (int i = 0; i < numVezes; i++) {
-            Elemento[] candidatos = findCandidates(boardState);
+            Elemento[] candidatos = findCandidates(boardState, false);
             Random gerador = new Random();
             int escolhido = gerador.nextInt(candidatos.length);
             boardState = this.move(candidatos[escolhido], boardState);
@@ -53,7 +54,7 @@ public class Board {
         return newBoardState;
     }
 
-    public Elemento[] findCandidates(BoardState boardState) {
+    public Elemento[] findCandidates(BoardState boardState, boolean isShuffle) {
         int[] posEsp = this.findSpace(boardState);
         List<Elemento> listCandidatos = new ArrayList<>();
         int y = posEsp[0];
@@ -75,6 +76,10 @@ public class Board {
         if (y < this.size) {
             listCandidatos.add(new Elemento(y, x, estado[y][x]));
         }
+        if (isShuffle) {
+            Collections.shuffle(listCandidatos);
+        }
+
         Elemento[] candidatos = new Elemento[listCandidatos.size()];
         candidatos = listCandidatos.toArray(candidatos);
 
