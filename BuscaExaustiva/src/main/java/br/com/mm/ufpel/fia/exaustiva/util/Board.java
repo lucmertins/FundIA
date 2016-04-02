@@ -1,6 +1,5 @@
-package br.com.mm.ufpel.fia.exaustiva;
+package br.com.mm.ufpel.fia.exaustiva.util;
 
-import br.com.mm.ufpel.fia.exaustiva.util.Elemento;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,11 +15,10 @@ public class Board {
 
     public Board(int size) {
         this.size = size;
-        solution = this.build();
+        this.solution = this.build();
 //        this.print(solution);
 //        System.out.println();
     }
-    
 
     public void print(BoardState boardState) {
         for (int i = 0; i < this.size; i++) {
@@ -29,6 +27,7 @@ public class Board {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     public BoardState shuffle(int numVezes) {
@@ -40,7 +39,7 @@ public class Board {
             Elemento[] candidatos = findCandidates(boardState);
             Random gerador = new Random();
             int escolhido = gerador.nextInt(candidatos.length);
-            boardState = this.move(candidatos[escolhido], boardState);
+            boardState= this.move(candidatos[escolhido], boardState);
         }
         return boardState;
     }
@@ -82,7 +81,15 @@ public class Board {
     }
 
     public boolean isTheSolution(BoardState state) {
-
+        int[][] solut = this.solution.getSequence();
+        int[][] sit = state.getSequence();
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                if (solut[i][j] != sit[i][j]) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -103,8 +110,8 @@ public class Board {
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; j < this.size; j++) {
                 if (boardState.getSequence()[i][j] == 0) {
-                    posEsp[0] = i;
-                    posEsp[1] = j;
+                    posEsp[1] = i;
+                    posEsp[0] = j;
                     return posEsp;
                 }
             }
