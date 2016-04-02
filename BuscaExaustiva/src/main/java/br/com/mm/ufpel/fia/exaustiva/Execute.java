@@ -7,6 +7,18 @@ package br.com.mm.ufpel.fia.exaustiva;
 public class Execute {
 
     public static void main(String[] args) {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    DepthFirstSearch search = new DepthFirstSearch(3, 20, 100000);
+//                    search.run();
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        }).start();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -18,17 +30,5 @@ public class Execute {
                 }
             }
         }).start();
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    DepthFirstSearch search = new DepthFirstSearch(3, 20, 10000);
-//                    search.run();
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        }).start();
     }
 }
