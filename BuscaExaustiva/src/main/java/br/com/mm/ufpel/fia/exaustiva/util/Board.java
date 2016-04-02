@@ -21,9 +21,10 @@ public class Board {
     }
 
     public void print(BoardState boardState) {
-        for (int i = 0; i < this.size; i++) {
-            for (int j = 0; j < this.size; j++) {
-                System.out.printf("%d\t", boardState.getSequence()[i][j]);
+        System.out.printf("Nível %s\n",boardState.getHeight());
+        for (int y = 0; y < this.size; y++) {
+            for (int x = 0; x < this.size; x++) {
+                System.out.printf("%d\t", boardState.getSequence()[y][x]);
             }
             System.out.println();
         }
@@ -39,7 +40,7 @@ public class Board {
             Elemento[] candidatos = findCandidates(boardState);
             Random gerador = new Random();
             int escolhido = gerador.nextInt(candidatos.length);
-            boardState= this.move(candidatos[escolhido], boardState);
+            boardState = this.move(candidatos[escolhido], boardState);
         }
         return boardState;
     }
@@ -48,31 +49,31 @@ public class Board {
         BoardState newBoardState = new BoardState(boardState.getSequence());
         int[] posEsp = this.findSpace(newBoardState);
         newBoardState.getSequence()[posEsp[0]][posEsp[1]] = elemento.getValor();
-        newBoardState.getSequence()[elemento.getX()][elemento.getY()] = 0;
+        newBoardState.getSequence()[elemento.getY()][elemento.getX()] = 0;
         return newBoardState;
     }
 
     public Elemento[] findCandidates(BoardState boardState) {
         int[] posEsp = this.findSpace(boardState);
         List<Elemento> listCandidatos = new ArrayList<>();
-        int x = posEsp[0] - 1;
-        int y = posEsp[1];
+        int y = posEsp[0];
+        int x = posEsp[1] - 1;
         int[][] estado = boardState.getSequence();
         if (x > -1) {
-            listCandidatos.add(new Elemento(x, y, estado[x][y]));
+            listCandidatos.add(new Elemento(y, x, estado[y][x]));
         }
-        x = posEsp[0] + 1;
+        x = posEsp[1] + 1;
         if (x < this.size) {
-            listCandidatos.add(new Elemento(x, y, estado[x][y]));
+            listCandidatos.add(new Elemento(y, x, estado[y][x]));
         }
-        x = posEsp[0];
-        y = posEsp[1] - 1;
+        x = posEsp[1];
+        y = posEsp[0] - 1;
         if (y > -1) {
-            listCandidatos.add(new Elemento(x, y, estado[x][y]));
+            listCandidatos.add(new Elemento(y, x, estado[y][x]));
         }
-        y = posEsp[1] + 1;
+        y = posEsp[0] + 1;
         if (y < this.size) {
-            listCandidatos.add(new Elemento(x, y, estado[x][y]));
+            listCandidatos.add(new Elemento(y, x, estado[y][x]));
         }
         Elemento[] candidatos = new Elemento[listCandidatos.size()];
         candidatos = listCandidatos.toArray(candidatos);
@@ -83,9 +84,9 @@ public class Board {
     public boolean isTheSolution(BoardState state) {
         int[][] solut = this.solution.getSequence();
         int[][] sit = state.getSequence();
-        for (int i = 0; i < this.size; i++) {
-            for (int j = 0; j < this.size; j++) {
-                if (solut[i][j] != sit[i][j]) {
+        for (int y = 0; y < this.size; y++) {
+            for (int x = 0; x < this.size; x++) {
+                if (solut[y][x] != sit[y][x]) {
                     return false;
                 }
             }
@@ -96,9 +97,9 @@ public class Board {
     private BoardState build() {
         int[][] seqIni = new int[this.size][this.size];
         int peca = 1;
-        for (int i = 0; i < this.size; i++) {
-            for (int j = 0; j < this.size; j++) {
-                seqIni[i][j] = peca++;
+        for (int y = 0; y < this.size; y++) {
+            for (int x = 0; x < this.size; x++) {
+                seqIni[y][x] = peca++;
             }
         }
         seqIni[this.size - 1][this.size - 1] = 0;
@@ -107,11 +108,11 @@ public class Board {
 
     private int[] findSpace(BoardState boardState) {
         int[] posEsp = new int[2];
-        for (int i = 0; i < this.size; i++) {
-            for (int j = 0; j < this.size; j++) {
-                if (boardState.getSequence()[i][j] == 0) {
-                    posEsp[1] = i;
-                    posEsp[0] = j;
+        for (int y = 0; y < this.size; y++) {
+            for (int x = 0; x < this.size; x++) {
+                if (boardState.getSequence()[y][x] == 0) {
+                    posEsp[0] = y;
+                    posEsp[1] = x;
                     return posEsp;
                 }
             }

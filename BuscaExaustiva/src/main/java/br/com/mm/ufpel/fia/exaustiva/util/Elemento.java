@@ -6,11 +6,11 @@ package br.com.mm.ufpel.fia.exaustiva.util;
  */
 public class Elemento {
 
-    private int x;
-    private int y;
-    private int valor;
+    private final int x;
+    private final int y;
+    private final int valor;
 
-    public Elemento(int x, int y, int valor) {
+    public Elemento(int y, int x, int valor) {
         this.x = x;
         this.y = y;
         this.valor = valor;

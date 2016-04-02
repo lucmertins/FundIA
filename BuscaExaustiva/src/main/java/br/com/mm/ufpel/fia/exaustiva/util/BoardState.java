@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class BoardState implements Serializable {
 
     private final int[][] sequence;
+    private int height;
 
     public BoardState(int[][] sequence) {
         this.sequence = new int[sequence.length][sequence.length];
@@ -21,4 +22,11 @@ public class BoardState implements Serializable {
         return sequence;
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 }
