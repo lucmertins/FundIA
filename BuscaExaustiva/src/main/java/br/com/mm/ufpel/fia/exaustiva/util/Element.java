@@ -4,16 +4,16 @@ package br.com.mm.ufpel.fia.exaustiva.util;
  *
  * @author mertins
  */
-public class Elemento {
+public class Element {
 
     private final int x;
     private final int y;
-    private final int valor;
+    private final int value;
 
-    public Elemento(int y, int x, int valor) {
+    public Element(int y, int x, int valor) {
         this.x = x;
         this.y = y;
-        this.valor = valor;
+        this.value = valor;
     }
 
     public int getX() {
@@ -24,8 +24,8 @@ public class Elemento {
         return y;
     }
 
-    public int getValor() {
-        return valor;
+    public int getValue() {
+        return value;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class Elemento {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Elemento other = (Elemento) obj;
+        final Element other = (Element) obj;
         if (this.x != other.x) {
             return false;
         }

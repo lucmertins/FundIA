@@ -2,7 +2,7 @@ package br.com.mm.ufpel.fia.exaustiva;
 
 import br.com.mm.ufpel.fia.exaustiva.util.Board;
 import br.com.mm.ufpel.fia.exaustiva.util.BoardState;
-import br.com.mm.ufpel.fia.exaustiva.util.Elemento;
+import br.com.mm.ufpel.fia.exaustiva.util.Element;
 import java.util.Stack;
 
 /**
@@ -43,22 +43,20 @@ public class DepthFirstSearch {
         while (!pilha.isEmpty()) {
             nivel++;
             if (pilha.size() > this.collectionLimit) {
-                System.out.printf("Collection com muitos elementos[ % s]\n ", pilha.size());
+                System.out.printf("Falha! Collection com muitos elementos[%s]\n ", pilha.size());
                 throw new RuntimeException("Collection com muitos elementos");
             }
             BoardState tempState = pilha.pop();
             this.board.print(tempState);
             if (!this.board.isTheSolution(tempState)) {
-                Elemento[] findCandidates
-                        = this.board.findCandidates(tempState, isShuffle);
-                for (Elemento possibilidade : findCandidates) {
-                    BoardState move
-                            = this.board.move(possibilidade, tempState);
+                Element[] findCandidates = this.board.findCandidates(tempState, isShuffle);
+                for (Element possibilidade : findCandidates) {
+                    BoardState move = this.board.move(possibilidade, tempState);
                     move.setHeight(nivel);
                     pilha.add(move);
                 }
             } else {
-                System.out.printf("Fim Elementos na Collection[ % d]\n", pilha.size());
+                System.out.printf("Fim com sucesso! Elementos na Collection[%d]\n", pilha.size());
                 break;
             }
         }

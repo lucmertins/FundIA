@@ -38,7 +38,7 @@ public class Board {
 
     public BoardState shuffle(int numVezes, BoardState boardState) {
         for (int i = 0; i < numVezes; i++) {
-            Elemento[] candidatos = findCandidates(boardState, false);
+            Element[] candidatos = findCandidates(boardState, false);
             Random gerador = new Random();
             int escolhido = gerador.nextInt(candidatos.length);
             boardState = this.move(candidatos[escolhido], boardState);
@@ -46,41 +46,41 @@ public class Board {
         return boardState;
     }
 
-    public BoardState move(Elemento elemento, BoardState boardState) {
+    public BoardState move(Element elemento, BoardState boardState) {
         BoardState newBoardState = new BoardState(boardState.getSequence());
         int[] posEsp = this.findSpace(newBoardState);
-        newBoardState.getSequence()[posEsp[0]][posEsp[1]] = elemento.getValor();
+        newBoardState.getSequence()[posEsp[0]][posEsp[1]] = elemento.getValue();
         newBoardState.getSequence()[elemento.getY()][elemento.getX()] = 0;
         return newBoardState;
     }
 
-    public Elemento[] findCandidates(BoardState boardState, boolean isShuffle) {
+    public Element[] findCandidates(BoardState boardState, boolean isShuffle) {
         int[] posEsp = this.findSpace(boardState);
-        List<Elemento> listCandidatos = new ArrayList<>();
+        List<Element> listCandidatos = new ArrayList<>();
         int y = posEsp[0];
         int x = posEsp[1] - 1;
         int[][] estado = boardState.getSequence();
         if (x > -1) {
-            listCandidatos.add(new Elemento(y, x, estado[y][x]));
+            listCandidatos.add(new Element(y, x, estado[y][x]));
         }
         x = posEsp[1] + 1;
         if (x < this.size) {
-            listCandidatos.add(new Elemento(y, x, estado[y][x]));
+            listCandidatos.add(new Element(y, x, estado[y][x]));
         }
         x = posEsp[1];
         y = posEsp[0] - 1;
         if (y > -1) {
-            listCandidatos.add(new Elemento(y, x, estado[y][x]));
+            listCandidatos.add(new Element(y, x, estado[y][x]));
         }
         y = posEsp[0] + 1;
         if (y < this.size) {
-            listCandidatos.add(new Elemento(y, x, estado[y][x]));
+            listCandidatos.add(new Element(y, x, estado[y][x]));
         }
         if (isShuffle) {
             Collections.shuffle(listCandidatos);
         }
 
-        Elemento[] candidatos = new Elemento[listCandidatos.size()];
+        Element[] candidatos = new Element[listCandidatos.size()];
         candidatos = listCandidatos.toArray(candidatos);
 
         return candidatos;
