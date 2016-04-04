@@ -54,9 +54,11 @@ public class Execute {
     }
 
     public static void main(String[] args) {
+        int processadores = Runtime.getRuntime().availableProcessors();
         long totalMemoria = Runtime.getRuntime().totalMemory() / 1048576;
         long livreMemoria = Runtime.getRuntime().freeMemory() / 1048576;
-        System.out.printf("\nMemória disponível [%dM]      Livre [%dM]\n\n", totalMemoria, livreMemoria);
+        long maxMemory = Runtime.getRuntime().maxMemory();
+        System.out.printf("\nProcessadores [%d]       Memória disponível [%dM]      Livre [%dM] Máx[%dM]\n\n", processadores, totalMemoria, livreMemoria, maxMemory);
         ALGORITHMS opcao = ALGORITHMS.BFS;
         if (args.length == 1) {
             try {
