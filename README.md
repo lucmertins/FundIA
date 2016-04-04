@@ -5,6 +5,5 @@ O projeto esta escrito em Java com Maven, sendo operacional em qualquer ferramen
 ferramenta utilizada foi o Netbeans 8.1 e o JDK 1.8.0
 
 
-Para administrar o consumo de memória usar por exemplo
-
-java -Xms1024m -Xmx2048m -jar target/BuscaExaustiva-1.0.jar 
+Para administrar o consumo de memória usar por exemplo:
+      java -Xms1024m -Xmx2048m -jar target/BuscaExaustiva-1.0.jar 
