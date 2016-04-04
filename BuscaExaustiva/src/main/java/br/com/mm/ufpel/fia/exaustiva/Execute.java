@@ -49,8 +49,28 @@ public class Execute {
         }).start();
     }
 
+    public static void iterativeDepthSearch(final int size, final int shuffle, final boolean isShuffle) {
+        new Thread(() -> {
+            IterativeDepthFirstSearch search = new IterativeDepthFirstSearch(size, shuffle, isShuffle);
+            try {
+                System.out.println("***************** Estado Inicial Iterative Depth First Search **********");
+                search.print(search.getBeginState());
+                search.printTime();
+                List<BoardState> solucao = search.run();
+                search.printTime();
+                System.out.println("***************** Solução **********");
+                search.print(solucao);
+                System.out.printf("***************** Movimentos [%d]\n", solucao.size());
+            } catch (Exception ex) {
+                System.out.println("***************** Falha **********");
+                search.printTime();
+                ex.printStackTrace();
+            }
+        }).start();
+    }
+
     private enum ALGORITHMS {
-        DFS, BFS
+        DFS, BFS, IDS
     }
 
     public static void main(String[] args) {
@@ -59,7 +79,7 @@ public class Execute {
         long livreMemoria = Runtime.getRuntime().freeMemory() / 1048576;
         long maxMemory = Runtime.getRuntime().maxMemory();
         System.out.printf("\nProcessadores [%d]       Memória disponível [%dM]      Livre [%dM] Máx[%dM]\n\n", processadores, totalMemoria, livreMemoria, maxMemory);
-        ALGORITHMS opcao = ALGORITHMS.BFS;
+        ALGORITHMS opcao = ALGORITHMS.IDS;
         if (args.length == 1) {
             try {
                 opcao = ALGORITHMS.valueOf(args[0]);
@@ -72,6 +92,9 @@ public class Execute {
                 break;
             case BFS:
                 Execute.breadthFirstSearch(3, 40, true);
+                break;
+            case IDS:
+                Execute.iterativeDepthSearch(3, 3, true);
                 break;
         }
     }

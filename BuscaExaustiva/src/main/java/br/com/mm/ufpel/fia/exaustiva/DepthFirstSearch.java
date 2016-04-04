@@ -35,7 +35,7 @@ public class DepthFirstSearch extends BasicSearch {
         try {
             while (!pilha.isEmpty()) {
                 BoardState testState = pilha.pop();
-//            this.board.print(tempState);   // informações parciais
+//            this.board.print(testState);   // informações parciais
                 if (!this.board.isTheSolution(testState)) {
                     Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
                     for (Element possibilidade : findCandidates) {
