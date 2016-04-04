@@ -77,25 +77,37 @@ public class Execute {
         int processadores = Runtime.getRuntime().availableProcessors();
         long totalMemoria = Runtime.getRuntime().totalMemory() / 1048576;
         long livreMemoria = Runtime.getRuntime().freeMemory() / 1048576;
-        long maxMemory = Runtime.getRuntime().maxMemory();
+        long maxMemory = Runtime.getRuntime().maxMemory() / 1048576;
         System.out.printf("\nProcessadores [%d]       Memória disponível [%dM]      Livre [%dM] Máx[%dM]\n\n", processadores, totalMemoria, livreMemoria, maxMemory);
         ALGORITHMS opcao = ALGORITHMS.IDS;
-        if (args.length == 1) {
+        int tabuleiro = 3;
+        int embaralhar = 40;
+        if (args.length == 3) {
             try {
                 opcao = ALGORITHMS.valueOf(args[0]);
+                tabuleiro = Integer.valueOf(args[1]);
+                embaralhar = Integer.valueOf(args[2]);
             } catch (Exception ex) {
+                System.out.println("usar: DFS|BFS|IDS tamanhoTabuleiro vezesEmbaralhado ");
+                System.out.println("Falha");
+                ex.printStackTrace();
+                System.exit(1);
             }
+        } else {
+            System.out.println("usando o padrão : IDS 3 40 ");
         }
+        System.out.println();
         switch (opcao) {
             case DFS:
-                Execute.depthFirstSearch(3, 40, true);
+                Execute.depthFirstSearch(tabuleiro, embaralhar, true);
                 break;
             case BFS:
-                Execute.breadthFirstSearch(3, 40, true);
+                Execute.breadthFirstSearch(tabuleiro, embaralhar, true);
                 break;
             case IDS:
-                Execute.iterativeDepthSearch(3, 3, true);
+                Execute.iterativeDepthSearch(tabuleiro, embaralhar, true);
                 break;
         }
+
     }
 }

@@ -4,7 +4,6 @@ import br.com.mm.ufpel.fia.exaustiva.util.BasicSearch;
 import br.com.mm.ufpel.fia.exaustiva.util.BoardState;
 import br.com.mm.ufpel.fia.exaustiva.util.Element;
 import java.util.List;
-import java.util.Stack;
 
 /**
  *
@@ -28,25 +27,24 @@ public class IterativeDepthFirstSearch extends BasicSearch {
 
     @Override
     public List<BoardState> run() {
-        int nivel = 0;
+        int depth = 0;
         try {
             while (true) {
-                BoardState testState = algDFS(beginState, nivel);
-//                this.board.print(testState);   // informações parciais
+                BoardState testState = algDFS(beginState, depth);
                 if (testState != null) {
                     return this.makeSolution(testState);
                 }
-                nivel++;
+                depth++;
             }
         } catch (OutOfMemoryError ex) {
             long totalMemoria = Runtime.getRuntime().totalMemory() / 1048576;
             long livreMemoria = Runtime.getRuntime().freeMemory() / 1048576;
-            throw new RuntimeException(String.format("Memory full! Nivel atingido [%s]       Memória disponível [%dM]      Livre [%dM]", nivel, totalMemoria, livreMemoria));
+            throw new RuntimeException(String.format("Memory full! Nivel atingido [%s]       Memória disponível [%dM]      Livre [%dM]", depth, totalMemoria, livreMemoria));
         }
     }
 
     private BoardState algDFS(BoardState testState, int depth) {
-        if (!this.board.isTheSolution(testState)) {
+        if (this.board.isTheSolution(testState)) {
             return testState;
         } else if (depth == 0) {
             return null;
@@ -54,8 +52,11 @@ public class IterativeDepthFirstSearch extends BasicSearch {
             Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
             for (Element possibilidade : findCandidates) {
                 BoardState move = this.board.move(possibilidade, testState);
+                move.setHeight(testState.getHeight() + 1);
+                move.setFather(testState);
+//                this.board.print(testState);    // informações parciais
                 BoardState ret = this.algDFS(move, depth - 1);
-                if (this.board.isTheSolution(ret)) {
+                if (ret != null && this.board.isTheSolution(ret)) {
                     return ret;
                 }
             }
@@ -63,21 +64,3 @@ public class IterativeDepthFirstSearch extends BasicSearch {
         return null;
     }
 }
-//
-//https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search
-//
-//procedure IDDFS(root)
-//    for depth from 0 to ∞
-//        found ← DLS(root, depth)
-//        if found ≠ null
-//            return found
-//
-//procedure DLS(node, depth)
-//    if depth = 0 and node is a goal
-//        return node
-//    else if depth > 0
-//        foreach child of node
-//            found ← DLS(child, depth−1)
-//            if found ≠ null
-//                return found
-//    return null
