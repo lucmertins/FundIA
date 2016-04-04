@@ -1,6 +1,6 @@
 package br.com.mm.ufpel.fia.exaustiva;
 
-import br.com.mm.ufpel.fia.exaustiva.util.Board;
+import br.com.mm.ufpel.fia.exaustiva.util.BasicSearch;
 import br.com.mm.ufpel.fia.exaustiva.util.BoardState;
 import br.com.mm.ufpel.fia.exaustiva.util.Element;
 import java.util.ArrayList;
@@ -12,12 +12,7 @@ import java.util.Stack;
  *
  * @author mertins
  */
-public class DepthFirstSearch {
-
-    private final Board board;
-    private final BoardState beginState;
-    private final int collectionLimit;
-    private final boolean isShuffle;
+public class DepthFirstSearch extends BasicSearch {
 
     /**
      * Construtor para realizar busca em profundidade no quebra-cabeça
@@ -31,13 +26,10 @@ public class DepthFirstSearch {
      *
      */
     public DepthFirstSearch(int size, int shuffle, int collectionLimit, boolean isShuffle) {
-        this.board = new Board(size);
-        this.beginState = this.board.shuffle(shuffle);
-        this.collectionLimit = collectionLimit;
-        this.isShuffle = isShuffle; //
-        this.board.print(this.beginState);
+        super(size, shuffle, collectionLimit, isShuffle);
     }
 
+    @Override
     public List<BoardState> run() {
         Stack<BoardState> pilha = new Stack<>();
         List<BoardState> solucao = new ArrayList<>();
@@ -54,7 +46,7 @@ public class DepthFirstSearch {
                 Element[] findCandidates = this.board.findCandidates(tempState, isShuffle);
                 for (Element possibilidade : findCandidates) {
                     BoardState move = this.board.move(possibilidade, tempState);
-                    move.setHeight(tempState.getHeight()+1);
+                    move.setHeight(tempState.getHeight() + 1);
                     pilha.add(move);
                 }
             } else {
