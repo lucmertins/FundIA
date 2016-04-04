@@ -9,51 +9,68 @@ import java.util.List;
  */
 public class Execute {
 
-    public static void depthFirstSearch(final int size, final int shuffle, final int collectionLimit, final boolean isShuffle) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    DepthFirstSearch search = new DepthFirstSearch(size, shuffle, collectionLimit, isShuffle);
-                    search.printTime();
-                    List<BoardState> solucao = search.run();
-                    search.printTime();
-                    System.out.println("***************** Estado Inicial **********");
-                    search.print(search.getBeginState());
-                    System.out.println("***************** Solução **********");
-                    search.print(solucao);
-                    System.out.printf("***************** Movimentos [%d]\n", solucao.size());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+    public static void depthFirstSearch(final int size, final int shuffle, final boolean isShuffle) {
+        new Thread(() -> {
+            DepthFirstSearch search = new DepthFirstSearch(size, shuffle, isShuffle);
+            try {
+                System.out.println("***************** Estado Inicial Depth First Search **********");
+                search.print(search.getBeginState());
+                search.printTime();
+                List<BoardState> solucao = search.run();
+                search.printTime();
+                System.out.println("***************** Solução **********");
+                search.print(solucao);
+                System.out.printf("***************** Movimentos [%d]\n", solucao.size());
+            } catch (Exception ex) {
+                System.out.println("***************** Falha **********");
+                search.printTime();
+                ex.printStackTrace();
             }
         }).start();
     }
 
-    public static void breadthFirstSearch(final int size, final int shuffle, final int collectionLimit, final boolean isShuffle) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    BreadthFirstSearch search = new BreadthFirstSearch(size, shuffle, collectionLimit, isShuffle);
-                    search.printTime();
-                    List<BoardState> solucao = search.run();
-                    search.printTime();
-                    System.out.println("***************** Estado Inicial **********");
-                    search.print(search.getBeginState());
-                    System.out.println("***************** Solução **********");
-                    search.print(solucao);
-                    System.out.printf("***************** Movimentos [%d]\n", solucao.size());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+    public static void breadthFirstSearch(final int size, final int shuffle, final boolean isShuffle) {
+        new Thread(() -> {
+            BreadthFirstSearch search = new BreadthFirstSearch(size, shuffle, isShuffle);
+            try {
+                System.out.println("***************** Estado Inicial Breadth First Search **********");
+                search.print(search.getBeginState());
+                search.printTime();
+                List<BoardState> solucao = search.run();
+                search.printTime();
+                System.out.println("***************** Solução **********");
+                search.print(solucao);
+                System.out.printf("***************** Movimentos [%d]\n", solucao.size());
+            } catch (Exception ex) {
+                System.out.println("***************** Falha **********");
+                search.printTime();
+                ex.printStackTrace();
             }
         }).start();
+    }
+
+    private enum ALGORITHMS {
+        DFS, BFS
     }
 
     public static void main(String[] args) {
-//        Execute.depthFirstSearch(3, 40, 10000000, true);
-        Execute.breadthFirstSearch(3, 40, 10000000, true);
-
+        long totalMemoria = Runtime.getRuntime().totalMemory() / 1048576;
+        long livreMemoria = Runtime.getRuntime().freeMemory() / 1048576;
+        System.out.printf("\nMemória disponível [%dM]      Livre [%dM]\n\n", totalMemoria, livreMemoria);
+        ALGORITHMS opcao = ALGORITHMS.BFS;
+        if (args.length == 1) {
+            try {
+                opcao = ALGORITHMS.valueOf(args[0]);
+            } catch (Exception ex) {
+            }
+        }
+        switch (opcao) {
+            case DFS:
+                Execute.depthFirstSearch(3, 40, true);
+                break;
+            case BFS:
+                Execute.breadthFirstSearch(3, 40, true);
+                break;
+        }
     }
 }

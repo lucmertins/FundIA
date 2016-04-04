@@ -1,7 +1,9 @@
 package br.com.mm.ufpel.fia.exaustiva.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Stack;
 
 /**
  *
@@ -11,7 +13,6 @@ public abstract class BasicSearch {
 
     protected final Board board;
     protected final BoardState beginState;
-    protected final int collectionLimit;
     protected final boolean isShuffle;
 
     /**
@@ -19,14 +20,12 @@ public abstract class BasicSearch {
      *
      * @param size tamanho do tabuleiro
      * @param shuffle quantidade de embaralhamento das peças
-     * @param collectionLimit limite máximo de elementos na collection
      * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a
      * repetição de ir e vir da mesma peça)
      */
-    public BasicSearch(int size, int shuffle, int collectionLimit, boolean isShuffle) {
+    public BasicSearch(int size, int shuffle, boolean isShuffle) {
         this.board = new Board(size);
         this.beginState = this.board.shuffle(shuffle);
-        this.collectionLimit = collectionLimit;
         this.isShuffle = isShuffle;
     }
 
@@ -45,7 +44,21 @@ public abstract class BasicSearch {
     }
 
     public void printTime() {
-        System.out.printf("************* %s ************ \n", new Date());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy hh:MM:ss.SSSS");
+        System.out.printf("************* %s ************ \n", sdf.format(new Date()));
+    }
+
+    protected List<BoardState> makeSolution(BoardState estadoFinal) {
+        Stack<BoardState> pilhaTemp = new Stack<>();
+        while (estadoFinal.getFather() != null) {
+            pilhaTemp.add(estadoFinal);
+            estadoFinal = estadoFinal.getFather();
+        }
+        Stack<BoardState> solucao = new Stack<>();
+        while (!pilhaTemp.isEmpty()) {
+            solucao.add(pilhaTemp.pop());
+        }
+        return solucao;
     }
 
 }

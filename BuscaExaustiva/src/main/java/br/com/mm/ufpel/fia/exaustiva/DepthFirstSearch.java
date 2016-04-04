@@ -3,7 +3,6 @@ package br.com.mm.ufpel.fia.exaustiva;
 import br.com.mm.ufpel.fia.exaustiva.util.BasicSearch;
 import br.com.mm.ufpel.fia.exaustiva.util.BoardState;
 import br.com.mm.ufpel.fia.exaustiva.util.Element;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -20,41 +19,43 @@ public class DepthFirstSearch extends BasicSearch {
      *
      * @param size tamanho do tabuleiro
      * @param shuffle quantidade de embaralhamento das peças
-     * @param collectionLimit limite máximo de elementos na collection
      * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a
      * repetição de ir e vir da mesma peça)
      *
      */
-    public DepthFirstSearch(int size, int shuffle, int collectionLimit, boolean isShuffle) {
-        super(size, shuffle, collectionLimit, isShuffle);
+    public DepthFirstSearch(int size, int shuffle, boolean isShuffle) {
+        super(size, shuffle, isShuffle);
     }
 
     @Override
     public List<BoardState> run() {
         Stack<BoardState> pilha = new Stack<>();
-        List<BoardState> solucao = new ArrayList<>();
         pilha.add(beginState);
-        while (!pilha.isEmpty()) {
-            if (pilha.size() > this.collectionLimit) {
-                System.out.printf("Falha! Collection com muitos elementos[%s]\n ", pilha.size());
-                throw new RuntimeException("Collection com muitos elementos");
-            }
-            BoardState tempState = pilha.pop();
-            solucao.add(tempState);
+        int nivel = 0;
+        try {
+            while (!pilha.isEmpty()) {
+                BoardState testState = pilha.pop();
 //            this.board.print(tempState);   // informações parciais
-            if (!this.board.isTheSolution(tempState)) {
-                Element[] findCandidates = this.board.findCandidates(tempState, isShuffle);
-                for (Element possibilidade : findCandidates) {
-                    BoardState move = this.board.move(possibilidade, tempState);
-                    move.setHeight(tempState.getHeight() + 1);
-                    pilha.add(move);
+                if (!this.board.isTheSolution(testState)) {
+                    Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
+                    for (Element possibilidade : findCandidates) {
+                        BoardState move = this.board.move(possibilidade, testState);
+                        nivel = testState.getHeight() + 1;
+                        move.setHeight(nivel);
+                        move.setFather(testState);
+                        pilha.add(move);
+                    }
+                } else {
+                    pilha.clear();
+                    return this.makeSolution(testState);
                 }
-            } else {
-                System.out.printf("Fim com sucesso! Elementos restantes na Collection[%d]\n", pilha.size());
-                return solucao;
             }
+        } catch (OutOfMemoryError ex) {
+            long totalMemoria = Runtime.getRuntime().totalMemory() / 1048576;
+            long livreMemoria = Runtime.getRuntime().freeMemory() / 1048576;
+            pilha.clear();
+            throw new RuntimeException(String.format("Memory full! Nivel atingido [%s]       Memória disponível [%dM]      Livre [%dM]", nivel, totalMemoria, livreMemoria));
         }
-        System.out.printf("Falha! Não encontrou solução\n ");
-        throw new RuntimeException("Falha! Não encontrou solução");
+        throw new RuntimeException("Falha! Não encontrou solução e Collection vazia");
     }
 }

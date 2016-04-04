@@ -17,8 +17,6 @@ public class Board {
     public Board(int size) {
         this.size = size;
         this.solution = this.build();
-//        this.print(solution);
-//        System.out.println();
     }
 
     public void print(List<BoardState> lista){
@@ -87,10 +85,8 @@ public class Board {
         if (isShuffle) {
             Collections.shuffle(listCandidatos);
         }
-
         Element[] candidatos = new Element[listCandidatos.size()];
         candidatos = listCandidatos.toArray(candidatos);
-
         return candidatos;
     }
 

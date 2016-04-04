@@ -11,6 +11,13 @@
     <modules>
         <module>BuscaExaustiva</module>
     </modules>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.debug>false</maven.compiler.debug>
+        <mainClass>br.com.mm.ufpel.fia.exaustiva.Execute</mainClass>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -18,9 +25,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <debug>false</debug>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <debug>${maven.compiler.debug}</debug>
                     <optimize>true</optimize>
                 </configuration>
             </plugin>

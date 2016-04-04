@@ -7,21 +7,18 @@ package br.com.mm.ufpel.fia.exaustiva;
 public class IterativeDepthFirstSearch extends DepthFirstSearch {
 
     /**
-     * Construtor para realizar busca em aprofundamento iterativo no quebra-cabeça
-     * deslizante
+     * Construtor para realizar busca em aprofundamento iterativo no
+     * quebra-cabeça deslizante
      *
      * @param size tamanho do tabuleiro
      * @param shuffle quantidade de embaralhamento das peças
-     * @param collectionLimit limite máximo de elementos na collection
      * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a
      * repetição de ir e vir da mesma peça)
      *
      */
-    public IterativeDepthFirstSearch(int size, int shuffle, int collectionLimit, boolean isShuffle) {
-        super(size, shuffle, collectionLimit, isShuffle);
+    public IterativeDepthFirstSearch(int size, int shuffle, boolean isShuffle) {
+        super(size, shuffle, isShuffle);
     }
-
-    
 
 }
 //
