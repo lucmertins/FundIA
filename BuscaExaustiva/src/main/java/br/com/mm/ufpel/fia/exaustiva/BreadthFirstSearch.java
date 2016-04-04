@@ -3,7 +3,9 @@ package br.com.mm.ufpel.fia.exaustiva;
 import br.com.mm.ufpel.fia.exaustiva.util.Board;
 import br.com.mm.ufpel.fia.exaustiva.util.BoardState;
 import br.com.mm.ufpel.fia.exaustiva.util.Element;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -34,29 +36,40 @@ public class BreadthFirstSearch {
         this.isShuffle = isShuffle;
     }
 
-    public void run() {
-        Queue<BoardState> pilha = new LinkedList<>();
-        pilha.add(beginState);
-        int nivel = 0;
-        while (!pilha.isEmpty()) {
-            nivel++;
-            if (pilha.size() > this.collectionLimit) {
-                System.out.printf("Falha! Collection com muitos elementos[%s]\n ", pilha.size());
+    public List<BoardState> run() {
+        Queue<BoardState> lista = new LinkedList<>();
+        lista.add(beginState);
+        while (!lista.isEmpty()) {
+            if (lista.size() > this.collectionLimit) {
+                System.out.printf("Falha! Collection com muitos elementos[%s]\n ", lista.size());
                 throw new RuntimeException("Collection com muitos elementos");
             }
-            BoardState tempState = pilha.poll();
-            this.board.print(tempState);
-            if (!this.board.isTheSolution(tempState)) {
-                Element[] findCandidates = this.board.findCandidates(tempState, isShuffle);
+            BoardState testState = lista.poll();
+            this.board.print(testState);
+            if (!this.board.isTheSolution(testState)) {
+                Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
                 for (Element possibilidade : findCandidates) {
-                    BoardState move = this.board.move(possibilidade, tempState);
-                    move.setHeight(nivel);
-                    pilha.add(move);
+                    BoardState move = this.board.move(possibilidade, testState);
+                    move.setHeight(testState.getHeight() + 1);
+                    move.setFather(testState);
+                    lista.add(move);
                 }
             } else {
-                System.out.printf("Fim com sucesso! Elementos na Collection[%d]\n", pilha.size());
-                break;
+                System.out.printf("Fim com sucesso! Elementos restantes na Collection[%d]\n", lista.size());
+                return this.makeSolution(testState);
             }
         }
+        System.out.printf("Falha! Não encontrou solução\n ");
+        throw new RuntimeException("Falha! Não encontrou solução");
+    }
+    
+    
+    private List<BoardState> makeSolution(BoardState estadoFinal){   //arrumar teste para montar soluçao
+        List<BoardState> solucao = new ArrayList<>();
+        while (estadoFinal.getFather()!=null){
+            solucao.add(estadoFinal);
+            estadoFinal=estadoFinal.getFather();
+        }
+        return solucao;
     }
 }

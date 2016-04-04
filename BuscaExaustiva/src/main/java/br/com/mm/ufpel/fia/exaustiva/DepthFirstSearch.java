@@ -3,6 +3,8 @@ package br.com.mm.ufpel.fia.exaustiva;
 import br.com.mm.ufpel.fia.exaustiva.util.Board;
 import br.com.mm.ufpel.fia.exaustiva.util.BoardState;
 import br.com.mm.ufpel.fia.exaustiva.util.Element;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -36,29 +38,31 @@ public class DepthFirstSearch {
         this.board.print(this.beginState);
     }
 
-    public void run() {
+    public List<BoardState> run() {
         Stack<BoardState> pilha = new Stack<>();
+        List<BoardState> solucao = new ArrayList<>();
         pilha.add(beginState);
-        int nivel = 0;
         while (!pilha.isEmpty()) {
-            nivel++;
             if (pilha.size() > this.collectionLimit) {
                 System.out.printf("Falha! Collection com muitos elementos[%s]\n ", pilha.size());
                 throw new RuntimeException("Collection com muitos elementos");
             }
             BoardState tempState = pilha.pop();
-            this.board.print(tempState);
+            solucao.add(tempState);
+//            this.board.print(tempState);   // informações parciais
             if (!this.board.isTheSolution(tempState)) {
                 Element[] findCandidates = this.board.findCandidates(tempState, isShuffle);
                 for (Element possibilidade : findCandidates) {
                     BoardState move = this.board.move(possibilidade, tempState);
-                    move.setHeight(nivel);
+                    move.setHeight(tempState.getHeight()+1);
                     pilha.add(move);
                 }
             } else {
-                System.out.printf("Fim com sucesso! Elementos na Collection[%d]\n", pilha.size());
-                break;
+                System.out.printf("Fim com sucesso! Elementos restantes na Collection[%d]\n", pilha.size());
+                return solucao;
             }
         }
+        System.out.printf("Falha! Não encontrou solução\n ");
+        throw new RuntimeException("Falha! Não encontrou solução");
     }
 }

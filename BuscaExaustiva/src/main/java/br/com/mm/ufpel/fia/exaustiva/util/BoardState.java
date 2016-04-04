@@ -10,6 +10,7 @@ public class BoardState implements Serializable {
 
     private final int[][] sequence;
     private int height;
+    private BoardState father;
 
     public BoardState(int[][] sequence) {
         this.sequence = new int[sequence.length][sequence.length];
@@ -28,5 +29,13 @@ public class BoardState implements Serializable {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public BoardState getFather() {
+        return father;
+    }
+
+    public void setFather(BoardState father) {
+        this.father = father;
     }
 }

@@ -1,5 +1,9 @@
 package br.com.mm.ufpel.fia.exaustiva;
 
+import br.com.mm.ufpel.fia.exaustiva.util.Board;
+import br.com.mm.ufpel.fia.exaustiva.util.BoardState;
+import java.util.List;
+
 /**
  *
  * @author mertins
@@ -11,8 +15,12 @@ public class Execute {
             @Override
             public void run() {
                 try {
-                    DepthFirstSearch search = new DepthFirstSearch(3, 20, 10000000, true);
-                    search.run();
+                    DepthFirstSearch search = new DepthFirstSearch(3, 40, 10000000, true);
+                    List<BoardState> solucao = search.run();
+                    Board quebracabeca = new Board(3);
+                    System.out.println("***************** Solução **********");
+                    quebracabeca.print(solucao);
+                    System.out.printf("***************** Movimentos [%d]\n", solucao.size());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -25,8 +33,12 @@ public class Execute {
             @Override
             public void run() {
                 try {
-                    BreadthFirstSearch search = new BreadthFirstSearch(3, 40, 10000000, false);
-                    search.run();
+                    BreadthFirstSearch search = new BreadthFirstSearch(3, 3, 10000000, false);
+                    List<BoardState> solucao = search.run();
+                    Board quebracabeca = new Board(3);
+                    System.out.println("***************** Solução **********");
+                    quebracabeca.print(solucao);
+                    System.out.printf("***************** Movimentos [%d]\n", solucao.size());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -35,8 +47,8 @@ public class Execute {
     }
 
     public static void main(String[] args) {
-        Execute.depthFirstSearch();
-//        Execute.breadthFirstSearch();
+//        Execute.depthFirstSearch();
+        Execute.breadthFirstSearch();
 
     }
 }

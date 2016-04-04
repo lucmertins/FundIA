@@ -21,8 +21,16 @@ public class Board {
 //        System.out.println();
     }
 
+    public void print(List<BoardState> lista){
+        System.out.println("------------------------------------");
+        for (BoardState estado:lista){
+            this.print(estado);
+        }
+        System.out.println("------------------------------------");
+    }
+    
     public void print(BoardState boardState) {
-        System.out.printf("Nível %s\n", boardState.getHeight());
+        System.out.printf("Altura %s\n", boardState.getHeight());
         for (int y = 0; y < this.size; y++) {
             for (int x = 0; x < this.size; x++) {
                 System.out.printf("%d\t", boardState.getSequence()[y][x]);
