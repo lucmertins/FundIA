@@ -36,10 +36,10 @@ public class BreadthFirstSearch extends BasicSearch {
                 BoardState testState = lista.poll();
 //            this.board.print(testState);    // informações parciais
                 if (!this.board.isTheSolution(testState)) {
+                    nivel = testState.getHeight() + 1;
                     Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
                     for (Element possibilidade : findCandidates) {
                         BoardState move = this.board.move(possibilidade, testState);
-                        nivel = testState.getHeight() + 1;
                         move.setHeight(nivel);
                         move.setFather(testState);
                         lista.add(move);

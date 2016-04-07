@@ -12,7 +12,7 @@ import java.util.Stack;
  * @author mertins
  */
 public class DepthFirstSearch extends BasicSearch {
-
+    private final int limitRamo;
     /**
      * Construtor para realizar busca em profundidade no quebra-cabeça
      * deslizante
@@ -25,6 +25,7 @@ public class DepthFirstSearch extends BasicSearch {
      */
     public DepthFirstSearch(int size, int shuffle, boolean isShuffle) {
         super(size, shuffle, isShuffle);
+        this.limitRamo=shuffle*10000;
     }
 
     @Override
@@ -32,21 +33,28 @@ public class DepthFirstSearch extends BasicSearch {
         Stack<BoardState> pilha = new Stack<>();
         pilha.add(beginState);
         int nivel = 0;
+        long countTrocaRamo=0;
         try {
             while (!pilha.isEmpty()) {
                 BoardState testState = pilha.pop();
 //            this.board.print(testState);   // informações parciais
                 if (!this.board.isTheSolution(testState)) {
-                    Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
-                    for (Element possibilidade : findCandidates) {
-                        BoardState move = this.board.move(possibilidade, testState);
-                        nivel = testState.getHeight() + 1;
-                        move.setHeight(nivel);
-                        move.setFather(testState);
-                        pilha.add(move);
+                    nivel = testState.getHeight() + 1;
+                    if (nivel <= this.shuffle) {
+                        Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
+                        for (Element possibilidade : findCandidates) {
+                            BoardState move = this.board.move(possibilidade, testState);
+                            nivel = testState.getHeight() + 1;
+                            move.setHeight(nivel);
+                            move.setFather(testState);
+                            pilha.add(move);
+                        }
+                    }else{
+                        countTrocaRamo++;
                     }
                 } else {
                     pilha.clear();
+                    System.out.printf("Trocou de ramo %d vezes\n",countTrocaRamo);
                     return this.makeSolution(testState);
                 }
             }

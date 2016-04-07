@@ -14,6 +14,7 @@ public abstract class BasicSearch {
     protected final Board board;
     protected final BoardState beginState;
     protected final boolean isShuffle;
+    protected final int shuffle;
 
     /**
      * Construtor basico para busca no quebra-cabeça deslizante
@@ -25,6 +26,7 @@ public abstract class BasicSearch {
      */
     public BasicSearch(int size, int shuffle, boolean isShuffle) {
         this.board = new Board(size);
+        this.shuffle = shuffle;
         this.beginState = this.board.shuffle(shuffle);
         this.isShuffle = isShuffle;
     }

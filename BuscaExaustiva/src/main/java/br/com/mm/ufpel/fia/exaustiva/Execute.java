@@ -79,7 +79,7 @@ public class Execute {
         long livreMemoria = Runtime.getRuntime().freeMemory() / 1048576;
         long maxMemory = Runtime.getRuntime().maxMemory() / 1048576;
         System.out.printf("\nProcessadores [%d]       Memória disponível [%dM]      Livre [%dM] Máx[%dM]\n\n", processadores, totalMemoria, livreMemoria, maxMemory);
-        ALGORITHMS opcao = ALGORITHMS.IDS;
+        ALGORITHMS opcao = ALGORITHMS.DFS;
         int tabuleiro = 3;
         int embaralhar = 40;
         if (args.length == 3) {
