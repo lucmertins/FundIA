@@ -39,8 +39,8 @@ public class Execute {
                 System.out.println("***************** Estado Inicial Breadth First Search **********");
                 search.print(search.getBeginState());
                 List<BoardState> solucao = search.run();
-//                System.out.println("***************** Solução **********");
-//                search.print(solucao);
+                System.out.println("***************** Solução **********");
+                search.print(solucao);
                 System.out.printf("***************** Movimentos [%d]\n", solucao.size());
             } catch (Exception ex) {
                 System.out.println("***************** Falha **********");
@@ -61,8 +61,8 @@ public class Execute {
                 System.out.println("***************** Estado Inicial Iterative Depth First Search **********");
                 search.print(search.getBeginState());
                 List<BoardState> solucao = search.run();
-//                System.out.println("***************** Solução **********");
-//                search.print(solucao);
+                System.out.println("***************** Solução **********");
+                search.print(solucao);
                 System.out.printf("***************** Movimentos [%d]\n", solucao.size());
             } catch (Exception ex) {
                 System.out.println("***************** Falha **********");
@@ -82,8 +82,8 @@ public class Execute {
                 System.out.println("***************** Estado Inicial A* Search **********");
                 search.print(search.getBeginState());
                 List<BoardState> solucao = search.run();
-//                System.out.println("***************** Solução **********");
-//                search.print(solucao);
+                System.out.println("***************** Solução **********");
+                search.print(solucao);
                 System.out.printf("***************** Movimentos [%d]\n", solucao.size());
             } catch (Exception ex) {
                 System.out.println("***************** Falha **********");
@@ -101,7 +101,7 @@ public class Execute {
 
         Observator.ALGORITHMS opcao = Observator.ALGORITHMS.ASTAR;
         int tabuleiro = 3;
-        int embaralhar = 5;
+        int embaralhar = 4000;
         if (args.length == 3) {
             try {
                 opcao = Observator.ALGORITHMS.valueOf(args[0]);

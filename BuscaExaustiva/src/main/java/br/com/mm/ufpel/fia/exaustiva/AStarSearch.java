@@ -34,8 +34,8 @@ public class AStarSearch extends BasicSearch {
         try {
             while (!lista.isEmpty()) {
                 BoardState testState = lista.poll();
-                testState.setValueHeuristic(heuristica(testState));
-                this.board.print(testState);    // informações parciais
+                testState.setValueHeuristic(heuristica(testState,nivel));
+//                this.board.print(testState);    // informações parciais
                 if (!this.board.isTheSolution(testState)) {
                     nivel = testState.getHeight() + 1;
                     Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
@@ -43,7 +43,7 @@ public class AStarSearch extends BasicSearch {
                         BoardState move = this.board.move(possibilidade, testState);
                         move.setHeight(nivel);
                         move.setFather(testState);
-                        move.setValueHeuristic(heuristica(move));
+                        move.setValueHeuristic(heuristica(move,nivel));
                         lista.add(move);
                     }
                     observator.setChangePath(nivel);
@@ -62,7 +62,7 @@ public class AStarSearch extends BasicSearch {
         throw new RuntimeException("Falha! Não encontrou solução e Collection vazia");
     }
 
-    private int heuristica(BoardState state) {
+    private int heuristica(BoardState state,int nivel) {
         int[][] sit = state.getSequence();
         int size = sit.length;
         int acumul = 0;
@@ -78,6 +78,6 @@ public class AStarSearch extends BasicSearch {
                 }
             }
         }
-        return acumul;
+        return acumul+nivel;
     }
 }
