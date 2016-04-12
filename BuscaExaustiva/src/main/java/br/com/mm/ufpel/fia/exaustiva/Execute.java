@@ -99,7 +99,7 @@ public class Execute {
 
     public static void main(String[] args) {
 
-        Observator.ALGORITHMS opcao = Observator.ALGORITHMS.IDS;
+        Observator.ALGORITHMS opcao = Observator.ALGORITHMS.ASTAR;
         int tabuleiro = 3;
         int embaralhar = 5;
         if (args.length == 3) {

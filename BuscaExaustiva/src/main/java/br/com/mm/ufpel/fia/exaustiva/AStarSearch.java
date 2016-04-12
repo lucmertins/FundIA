@@ -4,8 +4,8 @@ import br.com.mm.ufpel.fia.exaustiva.util.BasicSearch;
 import br.com.mm.ufpel.fia.exaustiva.util.BoardState;
 import br.com.mm.ufpel.fia.exaustiva.util.Element;
 import br.com.mm.ufpel.fia.exaustiva.util.Observator;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 /**
@@ -28,12 +28,13 @@ public class AStarSearch extends BasicSearch {
 
     @Override
     public List<BoardState> run() {
-        Queue<BoardState> lista = new LinkedList<>();
+        Queue<BoardState> lista = new PriorityQueue<>();
         lista.add(beginState);
         int nivel = 0;
         try {
             while (!lista.isEmpty()) {
                 BoardState testState = lista.poll();
+                testState.setValueHeuristic(heuristica(testState));
                 this.board.print(testState);    // informações parciais
                 if (!this.board.isTheSolution(testState)) {
                     nivel = testState.getHeight() + 1;
@@ -68,11 +69,13 @@ public class AStarSearch extends BasicSearch {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
                 int value = sit[y][x];
-                int yCerto = (value - 1) / size;
-                int xCerto = (value - 1) % size;
-                int xManhatan = Math.abs(xCerto - x);
-                int yManhatan = Math.abs(yCerto - y);
-                acumul += xManhatan + yManhatan;
+                if (value > 0) {
+                    int yCerto = (value - 1) / size;
+                    int xCerto = (value - 1) % size;
+                    int xManhatan = Math.abs(xCerto - x);
+                    int yManhatan = Math.abs(yCerto - y);
+                    acumul += xManhatan + yManhatan;
+                }
             }
         }
         return acumul;
