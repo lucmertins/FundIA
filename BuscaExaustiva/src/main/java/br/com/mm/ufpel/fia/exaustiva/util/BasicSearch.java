@@ -1,7 +1,8 @@
 package br.com.mm.ufpel.fia.exaustiva.util;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Stack;
 
@@ -11,23 +12,21 @@ import java.util.Stack;
  */
 public abstract class BasicSearch {
 
+    protected final Observator observator;
     protected final Board board;
     protected final BoardState beginState;
     protected final boolean isShuffle;
-    protected final int shuffle;
 
     /**
      * Construtor basico para busca no quebra-cabeça deslizante
      *
-     * @param size tamanho do tabuleiro
-     * @param shuffle quantidade de embaralhamento das peças
-     * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a
-     * repetição de ir e vir da mesma peça)
+     * @param observator classe responsável em receber as informações que servirão ao relatório
+     * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a repetição de ir e vir da mesma peça)
      */
-    public BasicSearch(int size, int shuffle, boolean isShuffle) {
-        this.board = new Board(size);
-        this.shuffle = shuffle;
-        this.beginState = this.board.shuffle(shuffle);
+    public BasicSearch(Observator observator, boolean isShuffle) {
+        this.observator = observator;
+        this.board = new Board(observator.getSize());
+        this.beginState = this.board.shuffle(observator.getShuffle());
         this.isShuffle = isShuffle;
     }
 
@@ -45,11 +44,6 @@ public abstract class BasicSearch {
         return beginState;
     }
 
-    public void printTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy hh:MM:ss.SSSS");
-        System.out.printf("************* %s ************ \n", sdf.format(new Date()));
-    }
-
     protected List<BoardState> makeSolution(BoardState estadoFinal) {
         Stack<BoardState> pilhaTemp = new Stack<>();
         while (estadoFinal.getFather() != null) {
@@ -61,6 +55,12 @@ public abstract class BasicSearch {
             solucao.add(pilhaTemp.pop());
         }
         return solucao;
+    }
+    
+    public String time(Duration duration){
+        DateTimeFormatter  fmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
+        String format = fmt.format(duration.addTo(LocalDateTime.of( 0 , 1 ,1 , 0 , 0 )));
+        return format;
     }
 
 }

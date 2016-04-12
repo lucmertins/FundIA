@@ -3,6 +3,7 @@ package br.com.mm.ufpel.fia.exaustiva;
 import br.com.mm.ufpel.fia.exaustiva.util.BasicSearch;
 import br.com.mm.ufpel.fia.exaustiva.util.BoardState;
 import br.com.mm.ufpel.fia.exaustiva.util.Element;
+import br.com.mm.ufpel.fia.exaustiva.util.Observator;
 import java.util.List;
 
 /**
@@ -15,14 +16,14 @@ public class IterativeDepthFirstSearch extends BasicSearch {
      * Construtor para realizar busca em aprofundamento iterativo no
      * quebra-cabeça deslizante
      *
-     * @param size tamanho do tabuleiro
-     * @param shuffle quantidade de embaralhamento das peças
+     * @param observator classe responsável em receber as informações que
+     * servirão ao relatório
      * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a
      * repetição de ir e vir da mesma peça)
      *
      */
-    public IterativeDepthFirstSearch(int size, int shuffle, boolean isShuffle) {
-        super(size, shuffle, isShuffle);
+    public IterativeDepthFirstSearch(Observator observator, boolean isShuffle) {
+        super(observator, isShuffle);
     }
 
     @Override
@@ -32,14 +33,14 @@ public class IterativeDepthFirstSearch extends BasicSearch {
             while (true) {
                 BoardState testState = algDFS(beginState, depth);
                 if (testState != null) {
+                    observator.okSolution();
                     return this.makeSolution(testState);
                 }
                 depth++;
             }
         } catch (OutOfMemoryError ex) {
-            long totalMemoria = Runtime.getRuntime().totalMemory() / 1048576;
-            long livreMemoria = Runtime.getRuntime().freeMemory() / 1048576;
-            throw new RuntimeException(String.format("Memory full! Nivel atingido [%s]       Memória disponível [%dM]      Livre [%dM]", depth, totalMemoria, livreMemoria));
+            observator.errSolution(depth);
+            throw new RuntimeException(String.format("Memory full! Nivel atingido [%s]", depth));
         }
     }
 

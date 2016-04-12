@@ -9,4 +9,4 @@ java -jar BuscaExaustiva DFS|BFS|IDS tamanhoTabuleiro vezesEmbaralhado
 
 
 Para administrar o consumo de memória usar por exemplo:
-      java -Xms7168m -Xmx8192m -jar BuscaExaustiva/target/BuscaExaustiva-1.0.jar IDS 3 40
+      java -Xms6144m -Xmx6144m -jar BuscaExaustiva/target/BuscaExaustiva-1.0.jar IDS 3 40

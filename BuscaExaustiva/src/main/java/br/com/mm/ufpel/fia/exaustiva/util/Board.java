@@ -19,23 +19,22 @@ public class Board {
         this.solution = this.build();
     }
 
-    public void print(List<BoardState> lista){
+    public void print(List<BoardState> lista) {
         System.out.println("------------------------------------");
-        for (BoardState estado:lista){
+        for (BoardState estado : lista) {
             this.print(estado);
         }
         System.out.println("------------------------------------");
     }
-    
+
     public void print(BoardState boardState) {
-        System.out.printf("Altura %s\n", boardState.getHeight());
+        System.out.printf("Altura %s      Heuristica %d\n", boardState.getHeight(), boardState.getValueHeuristic());
         for (int y = 0; y < this.size; y++) {
             for (int x = 0; x < this.size; x++) {
                 System.out.printf("%d\t", boardState.getSequence()[y][x]);
             }
             System.out.println();
         }
-        System.out.println();
     }
 
     public BoardState shuffle(int numVezes) {

@@ -11,6 +11,7 @@ public class BoardState implements Serializable {
     private final int[][] sequence;
     private int height;
     private BoardState father;
+    private int valueHeuristic;
 
     public BoardState(int[][] sequence) {
         this.sequence = new int[sequence.length][sequence.length];
@@ -38,4 +39,13 @@ public class BoardState implements Serializable {
     public void setFather(BoardState father) {
         this.father = father;
     }
+
+    public int getValueHeuristic() {
+        return valueHeuristic;
+    }
+
+    public void setValueHeuristic(int valueHeuristic) {
+        this.valueHeuristic = valueHeuristic;
+    }
+    
 }

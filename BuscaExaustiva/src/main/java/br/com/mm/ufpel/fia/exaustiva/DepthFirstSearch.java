@@ -3,6 +3,7 @@ package br.com.mm.ufpel.fia.exaustiva;
 import br.com.mm.ufpel.fia.exaustiva.util.BasicSearch;
 import br.com.mm.ufpel.fia.exaustiva.util.BoardState;
 import br.com.mm.ufpel.fia.exaustiva.util.Element;
+import br.com.mm.ufpel.fia.exaustiva.util.Observator;
 import java.util.List;
 import java.util.Stack;
 
@@ -12,20 +13,22 @@ import java.util.Stack;
  * @author mertins
  */
 public class DepthFirstSearch extends BasicSearch {
+
     private final int limitRamo;
+
     /**
      * Construtor para realizar busca em profundidade no quebra-cabeça
      * deslizante
      *
-     * @param size tamanho do tabuleiro
-     * @param shuffle quantidade de embaralhamento das peças
+     * @param observator classe responsável em receber as informações que
+     * servirão ao relatório
      * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a
      * repetição de ir e vir da mesma peça)
      *
      */
-    public DepthFirstSearch(int size, int shuffle, boolean isShuffle) {
-        super(size, shuffle, isShuffle);
-        this.limitRamo=shuffle*10000;
+    public DepthFirstSearch(Observator observator, boolean isShuffle) {
+        super(observator, isShuffle);
+        this.limitRamo = observator.getShuffle()*10000;
     }
 
     @Override
@@ -33,14 +36,14 @@ public class DepthFirstSearch extends BasicSearch {
         Stack<BoardState> pilha = new Stack<>();
         pilha.add(beginState);
         int nivel = 0;
-        long countTrocaRamo=0;
+        long countTrocaRamo = 0;
         try {
             while (!pilha.isEmpty()) {
                 BoardState testState = pilha.pop();
-//            this.board.print(testState);   // informações parciais
+//                this.board.print(testState);   // informações parciais
                 if (!this.board.isTheSolution(testState)) {
                     nivel = testState.getHeight() + 1;
-                    if (nivel <= this.shuffle) {
+                    if (nivel <= limitRamo) {
                         Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
                         for (Element possibilidade : findCandidates) {
                             BoardState move = this.board.move(possibilidade, testState);
@@ -49,21 +52,23 @@ public class DepthFirstSearch extends BasicSearch {
                             move.setFather(testState);
                             pilha.add(move);
                         }
-                    }else{
+                    } else {
+                        observator.setChangePath(countTrocaRamo);
+                        observator.setHeight(nivel);
                         countTrocaRamo++;
                     }
                 } else {
+                    observator.okSolution();
                     pilha.clear();
-                    System.out.printf("Trocou de ramo %d vezes\n",countTrocaRamo);
                     return this.makeSolution(testState);
                 }
             }
         } catch (OutOfMemoryError ex) {
-            long totalMemoria = Runtime.getRuntime().totalMemory() / 1048576;
-            long livreMemoria = Runtime.getRuntime().freeMemory() / 1048576;
+            observator.errSolution(nivel);
             pilha.clear();
-            throw new RuntimeException(String.format("Memory full! Nivel atingido [%s]       Memória disponível [%dM]      Livre [%dM]", nivel, totalMemoria, livreMemoria));
+            throw new RuntimeException(String.format("Memory full! Nivel atingido [%s]", nivel));
         }
+        observator.errSolution(nivel);
         throw new RuntimeException("Falha! Não encontrou solução e Collection vazia");
     }
 }

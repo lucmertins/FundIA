@@ -1,6 +1,8 @@
 package br.com.mm.ufpel.fia.exaustiva;
 
 import br.com.mm.ufpel.fia.exaustiva.util.BoardState;
+import br.com.mm.ufpel.fia.exaustiva.util.Event;
+import br.com.mm.ufpel.fia.exaustiva.util.Observator;
 import java.util.List;
 
 /**
@@ -9,104 +11,125 @@ import java.util.List;
  */
 public class Execute {
 
-    public static void depthFirstSearch(final int size, final int shuffle, final boolean isShuffle) {
+    public static void depthFirstSearch(final Observator observador, final boolean isShuffle) {
         new Thread(() -> {
-            DepthFirstSearch search = new DepthFirstSearch(size, shuffle, isShuffle);
+            DepthFirstSearch search = new DepthFirstSearch(observador, isShuffle);
             try {
                 System.out.println("***************** Estado Inicial Depth First Search **********");
                 search.print(search.getBeginState());
-                search.printTime();
                 List<BoardState> solucao = search.run();
-                search.printTime();
-                System.out.println("***************** Solução **********");
-                search.print(solucao);
+//                System.out.println("***************** Solução **********");
+//                search.print(solucao);
                 System.out.printf("***************** Movimentos [%d]\n", solucao.size());
             } catch (Exception ex) {
                 System.out.println("***************** Falha **********");
-                search.printTime();
                 ex.printStackTrace();
             }
+            for (Event evento : observador.getEvents()) {
+                System.out.println(evento.toString());
+            }
+            System.out.printf("Tempo de execução [%s]\n", search.time(observador.difference()));
         }).start();
     }
 
-    public static void breadthFirstSearch(final int size, final int shuffle, final boolean isShuffle) {
+    public static void breadthFirstSearch(final Observator observador, final boolean isShuffle) {
         new Thread(() -> {
-            BreadthFirstSearch search = new BreadthFirstSearch(size, shuffle, isShuffle);
+            BreadthFirstSearch search = new BreadthFirstSearch(observador, isShuffle);
             try {
                 System.out.println("***************** Estado Inicial Breadth First Search **********");
                 search.print(search.getBeginState());
-                search.printTime();
                 List<BoardState> solucao = search.run();
-                search.printTime();
-                System.out.println("***************** Solução **********");
-                search.print(solucao);
+//                System.out.println("***************** Solução **********");
+//                search.print(solucao);
                 System.out.printf("***************** Movimentos [%d]\n", solucao.size());
             } catch (Exception ex) {
                 System.out.println("***************** Falha **********");
-                search.printTime();
                 ex.printStackTrace();
             }
+            for (Event evento : observador.getEvents()) {
+                System.out.println(evento.toString());
+            }
+            System.out.printf("Tempo de execução [%s]\n", search.time(observador.difference()));
+
         }).start();
     }
 
-    public static void iterativeDepthSearch(final int size, final int shuffle, final boolean isShuffle) {
+    public static void iterativeDepthSearch(final Observator observador, final boolean isShuffle) {
         new Thread(() -> {
-            IterativeDepthFirstSearch search = new IterativeDepthFirstSearch(size, shuffle, isShuffle);
+            IterativeDepthFirstSearch search = new IterativeDepthFirstSearch(observador, isShuffle);
             try {
                 System.out.println("***************** Estado Inicial Iterative Depth First Search **********");
                 search.print(search.getBeginState());
-                search.printTime();
                 List<BoardState> solucao = search.run();
-                search.printTime();
-                System.out.println("***************** Solução **********");
-                search.print(solucao);
+//                System.out.println("***************** Solução **********");
+//                search.print(solucao);
                 System.out.printf("***************** Movimentos [%d]\n", solucao.size());
             } catch (Exception ex) {
                 System.out.println("***************** Falha **********");
-                search.printTime();
                 ex.printStackTrace();
             }
+            for (Event evento : observador.getEvents()) {
+                System.out.println(evento.toString());
+            }
+            System.out.printf("Tempo de execução [%s]\n", search.time(observador.difference()));
         }).start();
     }
 
-    private enum ALGORITHMS {
-        DFS, BFS, IDS
+    public static void aStarSearch(final Observator observador, final boolean isShuffle) {
+        new Thread(() -> {
+            AStarSearch search = new AStarSearch(observador, isShuffle);
+            try {
+                System.out.println("***************** Estado Inicial A* Search **********");
+                search.print(search.getBeginState());
+                List<BoardState> solucao = search.run();
+//                System.out.println("***************** Solução **********");
+//                search.print(solucao);
+                System.out.printf("***************** Movimentos [%d]\n", solucao.size());
+            } catch (Exception ex) {
+                System.out.println("***************** Falha **********");
+                ex.printStackTrace();
+            }
+            for (Event evento : observador.getEvents()) {
+                System.out.println(evento.toString());
+            }
+            System.out.printf("Tempo de execução [%s]\n", search.time(observador.difference()));
+
+        }).start();
     }
 
     public static void main(String[] args) {
-        int processadores = Runtime.getRuntime().availableProcessors();
-        long totalMemoria = Runtime.getRuntime().totalMemory() / 1048576;
-        long livreMemoria = Runtime.getRuntime().freeMemory() / 1048576;
-        long maxMemory = Runtime.getRuntime().maxMemory() / 1048576;
-        System.out.printf("\nProcessadores [%d]       Memória disponível [%dM]      Livre [%dM] Máx[%dM]\n\n", processadores, totalMemoria, livreMemoria, maxMemory);
-        ALGORITHMS opcao = ALGORITHMS.DFS;
+
+        Observator.ALGORITHMS opcao = Observator.ALGORITHMS.IDS;
         int tabuleiro = 3;
-        int embaralhar = 40;
+        int embaralhar = 5;
         if (args.length == 3) {
             try {
-                opcao = ALGORITHMS.valueOf(args[0]);
+                opcao = Observator.ALGORITHMS.valueOf(args[0]);
                 tabuleiro = Integer.valueOf(args[1]);
                 embaralhar = Integer.valueOf(args[2]);
             } catch (Exception ex) {
-                System.out.println("usar: DFS|BFS|IDS tamanhoTabuleiro vezesEmbaralhado ");
+                System.out.println("usar: DFS|BFS|IDS|ASTAR tamanhoTabuleiro vezesEmbaralhado ");
                 System.out.println("Falha");
                 ex.printStackTrace();
                 System.exit(1);
             }
-        } else {
-            System.out.println("usando o padrão : IDS 3 40 ");
         }
-        System.out.println();
+        System.out.printf("Algoritmo[%s] Tamanho [%d]  Embaralhado %d vezes\n ", opcao.toString(), tabuleiro, embaralhar);
+        Observator observador = new Observator(opcao, tabuleiro, embaralhar);
         switch (opcao) {
             case DFS:
-                Execute.depthFirstSearch(tabuleiro, embaralhar, true);
+                Execute.depthFirstSearch(observador, true);
                 break;
             case BFS:
-                Execute.breadthFirstSearch(tabuleiro, embaralhar, true);
+                Execute.breadthFirstSearch(observador, true);
                 break;
             case IDS:
-                Execute.iterativeDepthSearch(tabuleiro, embaralhar, true);
+                Execute.iterativeDepthSearch(observador, true);
                 break;
+            case ASTAR:
+                Execute.aStarSearch(observador, true);
+                break;
+
         }
 
     }
