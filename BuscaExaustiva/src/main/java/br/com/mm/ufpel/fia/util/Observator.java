@@ -1,4 +1,4 @@
-package br.com.mm.ufpel.fia.exaustiva.util;
+package br.com.mm.ufpel.fia.util;
 
 import java.time.Duration;
 import java.time.Instant;

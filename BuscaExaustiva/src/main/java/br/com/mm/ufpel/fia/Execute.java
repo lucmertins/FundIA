@@ -1,8 +1,12 @@
-package br.com.mm.ufpel.fia.exaustiva;
+package br.com.mm.ufpel.fia;
 
-import br.com.mm.ufpel.fia.exaustiva.util.BoardState;
-import br.com.mm.ufpel.fia.exaustiva.util.Event;
-import br.com.mm.ufpel.fia.exaustiva.util.Observator;
+import br.com.mm.ufpel.fia.exaustiva.BreadthFirstSearch;
+import br.com.mm.ufpel.fia.exaustiva.DepthFirstSearch;
+import br.com.mm.ufpel.fia.exaustiva.IterativeDepthFirstSearch;
+import br.com.mm.ufpel.fia.heuristica.AStarSearch;
+import br.com.mm.ufpel.fia.util.BoardState;
+import br.com.mm.ufpel.fia.util.Event;
+import br.com.mm.ufpel.fia.util.Observator;
 import java.util.List;
 
 /**

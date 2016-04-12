@@ -1,9 +1,9 @@
 package br.com.mm.ufpel.fia.exaustiva;
 
-import br.com.mm.ufpel.fia.exaustiva.util.BasicSearch;
-import br.com.mm.ufpel.fia.exaustiva.util.BoardState;
-import br.com.mm.ufpel.fia.exaustiva.util.Element;
-import br.com.mm.ufpel.fia.exaustiva.util.Observator;
+import br.com.mm.ufpel.fia.util.BasicSearch;
+import br.com.mm.ufpel.fia.util.BoardState;
+import br.com.mm.ufpel.fia.util.Element;
+import br.com.mm.ufpel.fia.util.Observator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;

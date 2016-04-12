@@ -1,4 +1,4 @@
-package br.com.mm.ufpel.fia.exaustiva.util;
+package br.com.mm.ufpel.fia.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
