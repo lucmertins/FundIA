@@ -14,6 +14,12 @@ import java.util.Queue;
  */
 public class AStarSearch extends BasicSearch {
 
+    public enum Heuristics {
+        MANHATAN, HAMMING
+    }
+
+    private final Heuristics heuristic;
+
     /**
      * Construtor para realizar busca A* no quebra-cabeça deslizante
      *
@@ -21,9 +27,11 @@ public class AStarSearch extends BasicSearch {
      * servirão ao relatório
      * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a
      * repetição de ir e vir da mesma peça)
+     * @param heuristic qual função heuristica deve ser utilizada
      */
-    public AStarSearch(Observator observator, boolean isShuffle) {
+    public AStarSearch(Observator observator, boolean isShuffle, Heuristics heuristic) {
         super(observator, isShuffle);
+        this.heuristic = heuristic;
     }
 
     @Override
@@ -34,7 +42,7 @@ public class AStarSearch extends BasicSearch {
         try {
             while (!lista.isEmpty()) {
                 BoardState testState = lista.poll();
-                testState.setValueHeuristic(heuristica(testState,nivel));
+                testState.setValueHeuristic(heuristic(testState, nivel));
 //                this.board.print(testState);    // informações parciais
                 if (!this.board.isTheSolution(testState)) {
                     nivel = testState.getHeight() + 1;
@@ -43,7 +51,7 @@ public class AStarSearch extends BasicSearch {
                         BoardState move = this.board.move(possibilidade, testState);
                         move.setHeight(nivel);
                         move.setFather(testState);
-                        move.setValueHeuristic(heuristica(move,nivel));
+                        move.setValueHeuristic(heuristic(move, nivel));
                         lista.add(move);
                     }
                     observator.setChangePath(nivel);
@@ -62,7 +70,20 @@ public class AStarSearch extends BasicSearch {
         throw new RuntimeException("Falha! Não encontrou solução e Collection vazia");
     }
 
-    private int heuristica(BoardState state,int nivel) {
+    private int heuristic(BoardState state, int nivel) {
+        int value = -1;
+        switch (this.heuristic) {
+            case MANHATAN:
+                value = this.heuristicaManhatan(state, nivel);
+                break;
+            case HAMMING:
+                value = this.heuristicaHamming(state, nivel);
+                break;
+        }
+        return value;
+    }
+
+    private int heuristicaManhatan(BoardState state, int nivel) {
         int[][] sit = state.getSequence();
         int size = sit.length;
         int acumul = 0;
@@ -78,6 +99,21 @@ public class AStarSearch extends BasicSearch {
                 }
             }
         }
-        return acumul+nivel;
+        return acumul + nivel;
+    }
+
+    private int heuristicaHamming(BoardState state, int nivel) {
+        int[][] sit = state.getSequence();
+        int size = sit.length;
+        int peca = 1;
+        int acumul = 0;
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                if (peca != sit[y][x]) {
+                    acumul++;
+                }
+            }
+        }
+        return acumul + nivel;
     }
 }

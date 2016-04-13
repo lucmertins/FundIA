@@ -79,9 +79,9 @@ public class Execute {
         }).start();
     }
 
-    public static void aStarSearch(final Observator observador, final boolean isShuffle) {
+    public static void aStarSearch(final Observator observador, final boolean isShuffle, AStarSearch.Heuristics heuristic) {
         new Thread(() -> {
-            AStarSearch search = new AStarSearch(observador, isShuffle);
+            AStarSearch search = new AStarSearch(observador, isShuffle, heuristic);
             try {
                 System.out.println("***************** Estado Inicial A* Search **********");
                 search.print(search.getBeginState());
@@ -105,20 +105,24 @@ public class Execute {
 
         Observator.ALGORITHMS opcao = Observator.ALGORITHMS.ASTAR;
         int tabuleiro = 3;
-        int embaralhar = 4000;
-        if (args.length == 3) {
+        int embaralhar = 100;
+        AStarSearch.Heuristics heuristic = AStarSearch.Heuristics.MANHATAN;
+        if (args.length >= 3 && args.length <= 4) {
             try {
                 opcao = Observator.ALGORITHMS.valueOf(args[0]);
                 tabuleiro = Integer.valueOf(args[1]);
                 embaralhar = Integer.valueOf(args[2]);
+                if (opcao == Observator.ALGORITHMS.ASTAR) {
+                    heuristic = AStarSearch.Heuristics.valueOf(args[3]);
+                }
             } catch (Exception ex) {
-                System.out.println("usar: DFS|BFS|IDS|ASTAR tamanhoTabuleiro vezesEmbaralhado ");
+                System.out.println("usar: DFS|BFS|IDS|ASTAR tamanhoTabuleiro vezesEmbaralhado heuristica");
                 System.out.println("Falha");
                 ex.printStackTrace();
                 System.exit(1);
             }
         }
-        System.out.printf("Algoritmo[%s] Tamanho [%d]  Embaralhado %d vezes\n ", opcao.toString(), tabuleiro, embaralhar);
+        System.out.printf("Algoritmo[%s] Tamanho [%d] Heuristica [%s] Embaralhado %d vezes\n ", opcao.toString(), tabuleiro, heuristic, embaralhar);
         Observator observador = new Observator(opcao, tabuleiro, embaralhar);
         switch (opcao) {
             case DFS:
@@ -131,7 +135,7 @@ public class Execute {
                 Execute.iterativeDepthSearch(observador, true);
                 break;
             case ASTAR:
-                Execute.aStarSearch(observador, true);
+                Execute.aStarSearch(observador, true,heuristic);
                 break;
 
         }
