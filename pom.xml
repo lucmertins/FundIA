@@ -10,6 +10,8 @@
     <description>Projeto que contem os exercicios de busca da disciplina de Fundamentos de Inteligência Artificial.</description>
     <modules>
         <module>BuscaExaustiva</module>
+        <module>BuscaCompetitiva</module>
+        <module>BuscaComHeuristica</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
