@@ -1,4 +1,4 @@
-package br.com.mm.ufpel.fia.heuristica;
+package br.com.mm.ufpel.fia.buscacomheuristica;
 
 import br.com.mm.ufpel.fia.util.BasicSearch;
 import br.com.mm.ufpel.fia.util.BoardState;
