@@ -50,4 +50,4 @@ ROTINA minimax(nó, profundidade)
         RETORNE α
     FIM SE
 FIM ROTINA
-/*
+*/
