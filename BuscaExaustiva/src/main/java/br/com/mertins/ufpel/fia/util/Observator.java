@@ -16,13 +16,13 @@ import java.util.logging.Logger;
 public class Observator {
 
     public enum ALGORITHMS {
-        DFS, BFS, IDS,ASTAR
+        DFS, BFS, IDS, ASTAR, MINIMAX
     }
     private boolean run = true;
     private final ALGORITHMS algorithm;
     private final int size;
     private final int shuffle;
-    private List<Event> eventos = new ArrayList();
+    private final List<Event> eventos = new ArrayList();
     private long changePath = -1;
     private int height = -1;
 
@@ -76,7 +76,7 @@ public class Observator {
     public void setHeight(int height) {
         this.height = height;
     }
-    
+
     public List<Event> getEvents() {
         return eventos;
     }
