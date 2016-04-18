@@ -1,4 +1,4 @@
-package br.com.mm.ufpel.fia.util;
+package br.com.mertins.ufpel.fia.util;
 
 /**
  *

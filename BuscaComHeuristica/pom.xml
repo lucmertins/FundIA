@@ -40,7 +40,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>br.com.mm.ufpel.fia.ExecuteCHeuristic</mainClass>
+                            <mainClass>br.com.mertins.ufpel.fia.comheuristica.Execute</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

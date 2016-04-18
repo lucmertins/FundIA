@@ -35,7 +35,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>br.com.mm.ufpel.fia.ExecuteExaustiva</mainClass>
+                            <mainClass>br.com.mertins.ufpel.fia.exaustiva.Execute</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

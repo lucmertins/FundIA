@@ -1,16 +1,16 @@
-package br.com.mm.ufpel.fia;
+package br.com.mertins.ufpel.fia.comheuristica;
 
-import br.com.mm.ufpel.fia.buscacomheuristica.AStarSearch;
-import br.com.mm.ufpel.fia.util.BoardState;
-import br.com.mm.ufpel.fia.util.Event;
-import br.com.mm.ufpel.fia.util.Observator;
+import br.com.mertins.ufpel.fia.comheuristica.AStarSearch;
+import br.com.mertins.ufpel.fia.util.BoardState;
+import br.com.mertins.ufpel.fia.util.Event;
+import br.com.mertins.ufpel.fia.util.Observator;
 import java.util.List;
 
 /**
  *
  * @author mertins
  */
-public class ExecuteCHeuristic {
+public class Execute {
 
     public static void aStarSearch(final Observator observador, final boolean isShuffle, AStarSearch.Heuristics heuristic) {
         new Thread(() -> {
@@ -57,7 +57,7 @@ public class ExecuteCHeuristic {
         Observator observador = new Observator(opcao, tabuleiro, embaralhar);
         switch (opcao) {
             case ASTAR:
-                ExecuteCHeuristic.aStarSearch(observador, true, heuristic);
+                Execute.aStarSearch(observador, true, heuristic);
                 break;
 
         }

@@ -1,9 +1,9 @@
-package br.com.mm.ufpel.fia.exaustiva;
+package br.com.mertins.ufpel.fia.exaustiva;
 
-import br.com.mm.ufpel.fia.util.BasicSearch;
-import br.com.mm.ufpel.fia.util.BoardState;
-import br.com.mm.ufpel.fia.util.Element;
-import br.com.mm.ufpel.fia.util.Observator;
+import br.com.mertins.ufpel.fia.util.BasicSearch;
+import br.com.mertins.ufpel.fia.util.BoardState;
+import br.com.mertins.ufpel.fia.util.Element;
+import br.com.mertins.ufpel.fia.util.Observator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;

@@ -1,18 +1,15 @@
-package br.com.mm.ufpel.fia;
+package br.com.mertins.ufpel.fia.exaustiva;
 
-import br.com.mm.ufpel.fia.exaustiva.BreadthFirstSearch;
-import br.com.mm.ufpel.fia.exaustiva.DepthFirstSearch;
-import br.com.mm.ufpel.fia.exaustiva.IterativeDepthFirstSearch;
-import br.com.mm.ufpel.fia.util.BoardState;
-import br.com.mm.ufpel.fia.util.Event;
-import br.com.mm.ufpel.fia.util.Observator;
+import br.com.mertins.ufpel.fia.util.BoardState;
+import br.com.mertins.ufpel.fia.util.Event;
+import br.com.mertins.ufpel.fia.util.Observator;
 import java.util.List;
 
 /**
  *
  * @author mertins
  */
-public class ExecuteExaustiva {
+public class Execute {
 
     public static void depthFirstSearch(final Observator observador, final boolean isShuffle) {
         new Thread(() -> {
@@ -80,9 +77,9 @@ public class ExecuteExaustiva {
 
     public static void main(String[] args) {
 
-        Observator.ALGORITHMS opcao = Observator.ALGORITHMS.ASTAR;
+        Observator.ALGORITHMS opcao = Observator.ALGORITHMS.IDS;
         int tabuleiro = 3;
-        int embaralhar = 100;
+        int embaralhar = 10;
         if (args.length == 3) {
             try {
                 opcao = Observator.ALGORITHMS.valueOf(args[0]);
@@ -99,13 +96,13 @@ public class ExecuteExaustiva {
         Observator observador = new Observator(opcao, tabuleiro, embaralhar);
         switch (opcao) {
             case DFS:
-                ExecuteExaustiva.depthFirstSearch(observador, true);
+                Execute.depthFirstSearch(observador, true);
                 break;
             case BFS:
-                ExecuteExaustiva.breadthFirstSearch(observador, true);
+                Execute.breadthFirstSearch(observador, true);
                 break;
             case IDS:
-                ExecuteExaustiva.iterativeDepthSearch(observador, true);
+                Execute.iterativeDepthSearch(observador, true);
                 break;
 
         }
