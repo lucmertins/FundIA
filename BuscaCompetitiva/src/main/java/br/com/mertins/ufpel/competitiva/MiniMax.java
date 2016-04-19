@@ -1,6 +1,11 @@
 package br.com.mertins.ufpel.competitiva;
 
+import br.com.mertins.ufpel.competitiva.util.BoardTicTacToe;
 import br.com.mertins.ufpel.fia.util.BoardState;
+import br.com.mertins.ufpel.fia.util.Observator;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -9,8 +14,31 @@ import java.util.List;
  */
 public class MiniMax {
 
+    private final Observator observator;
+    protected final BoardTicTacToe board;
+
+    public MiniMax(Observator observator) {
+        this.observator = observator;
+        this.board = new BoardTicTacToe();
+    }
+
     public List<BoardState> run() {
+
         return null;
+    }
+
+    public void print(List<BoardState> lista) {
+        this.board.print();
+    }
+
+    public void print(BoardState boardState) {
+        this.board.print();
+    }
+
+    public String time(Duration duration) {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
+        String format = fmt.format(duration.addTo(LocalDateTime.of(0, 1, 1, 0, 0)));
+        return format;
     }
 }
 /*
@@ -50,4 +78,4 @@ ROTINA minimax(nó, profundidade)
         RETORNE α
     FIM SE
 FIM ROTINA
-*/
+ */
