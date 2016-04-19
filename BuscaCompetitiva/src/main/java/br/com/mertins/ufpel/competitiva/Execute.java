@@ -1,9 +1,8 @@
 package br.com.mertins.ufpel.competitiva;
 
-import br.com.mertins.ufpel.fia.util.BoardState;
+import br.com.mertins.ufpel.competitiva.util.Node;
 import br.com.mertins.ufpel.fia.util.Event;
 import br.com.mertins.ufpel.fia.util.Observator;
-import java.util.List;
 
 /**
  *
@@ -15,10 +14,10 @@ public class Execute {
         new Thread(() -> {
             MiniMax search = new MiniMax(observador);
             try {
-                List<BoardState> solucao = search.run();
+                Node solucao = search.run();
                 System.out.println("***************** Solução **********");
-                search.print(solucao);
-                System.out.printf("***************** Movimentos [%d]\n", solucao.size());
+//                search.print(solucao);
+//                System.out.printf("***************** Movimentos [%d]\n", solucao.size());
             } catch (Exception ex) {
                 System.out.println("***************** Falha **********");
                 ex.printStackTrace();

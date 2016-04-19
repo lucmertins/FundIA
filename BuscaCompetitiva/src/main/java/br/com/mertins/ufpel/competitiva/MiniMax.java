@@ -1,6 +1,7 @@
 package br.com.mertins.ufpel.competitiva;
 
 import br.com.mertins.ufpel.competitiva.util.BoardTicTacToe;
+import br.com.mertins.ufpel.competitiva.util.Node;
 import br.com.mertins.ufpel.fia.util.BoardState;
 import br.com.mertins.ufpel.fia.util.Observator;
 import java.time.Duration;
@@ -22,9 +23,9 @@ public class MiniMax {
         this.board = new BoardTicTacToe();
     }
 
-    public List<BoardState> run() {
-
-        return null;
+    public Node run() {
+        minimax(board.getNodeBegin(), 20, true);
+        return board.getNodeBegin();
     }
 
     public void print(List<BoardState> lista) {
@@ -40,42 +41,25 @@ public class MiniMax {
         String format = fmt.format(duration.addTo(LocalDateTime.of(0, 1, 1, 0, 0)));
         return format;
     }
+
+    private Node minimax(Node node, int depth, boolean maximizingPlayer) {
+        if (depth == 0||this.board.terminal(node)) {
+            return this.board.heuristic(node);
+        } else if (maximizingPlayer) {
+            Node bestValue = new Node(Node.Infinite.NEGATIVE, Node.Marker.X);
+            for (Node nodeChild : this.board.findCandidates(node)) {
+                Node temp = minimax(nodeChild, depth - 1, false);
+                bestValue = bestValue.max(temp);
+            }
+            return bestValue;
+        } else {
+            Node bestValue = new Node(Node.Infinite.POSITIVE,Node.Marker.O);
+            for (Node nodeChild : this.board.findCandidates(node)) {
+                Node temp = minimax(nodeChild, depth - 1, true);
+                bestValue = bestValue.min(temp);
+            }
+            return bestValue;
+        }
+    }
+
 }
-/*
-function minimax(node, depth, maximizingPlayer)
-     if depth = 0 or node is a terminal node
-         return the heuristic value of node
-
-     if maximizingPlayer
-         bestValue := −∞
-         for each child of node
-             v := minimax(child, depth − 1, FALSE)
-             bestValue := max(bestValue, v)
-         return bestValue
-
-     else    (* minimizing player *)
-         bestValue := +∞
-         for each child of node
-             v := minimax(child, depth − 1, TRUE)
-             bestValue := min(bestValue, v)
-         return bestValue 
-
-
-ROTINA minimax(nó, profundidade)
-    SE nó é um nó terminal OU profundidade = 0 ENTÃO
-        RETORNE o valor da heurística do nó
-    SENÃO SE o nó representa a jogada de algum adversário ENTÃO
-        α ← +∞
-        PARA CADA filho DE nó
-            α ← min(α, minimax(filho, profundidade-1))
-        FIM PARA
-        RETORNE α
-    SENÃO
-        α ← -∞
-        PARA CADA filho DE nó
-            α ← max(α, minimax(filho, profundidade-1))
-        FIM PARA
-        RETORNE α
-    FIM SE
-FIM ROTINA
- */
