@@ -22,6 +22,7 @@ public class BoardTicTacToe {
     }
 
     public void print() {
+        System.out.println("");
         for (int y = 0; y < tabuleiro.length; y++) {
             for (int x = 0; x < tabuleiro.length; x++) {
                 System.out.printf("%s\t", tabuleiro[y][x].getMarker().toString());

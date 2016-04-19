@@ -13,6 +13,7 @@ public class Execute {
     public static void miniMax(final Observator observador) {
         new Thread(() -> {
             MiniMax search = new MiniMax(observador);
+            search.print();
             try {
                 Node solucao = search.run();
                 System.out.println("***************** Solução **********");

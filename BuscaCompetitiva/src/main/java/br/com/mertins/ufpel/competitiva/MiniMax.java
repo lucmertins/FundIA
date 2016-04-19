@@ -28,11 +28,7 @@ public class MiniMax {
         return board.getNodeBegin();
     }
 
-    public void print(List<BoardState> lista) {
-        this.board.print();
-    }
-
-    public void print(BoardState boardState) {
+    public void print() {
         this.board.print();
     }
 

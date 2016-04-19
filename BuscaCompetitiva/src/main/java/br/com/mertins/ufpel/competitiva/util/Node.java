@@ -23,7 +23,7 @@ public class Node {
                 case O:
                     return "0";
                 default:
-                    return " ";
+                    return "H";
             }
         }
     }
