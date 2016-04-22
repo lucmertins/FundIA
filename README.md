@@ -32,3 +32,13 @@ Onde:
 4 parametro é a heuristica MANHATAN|HAMMING
 
 
+
+
+
+Para executar o Minimax
+
+java -Xms6144m -Xmx6144m -jar BuscaCompetitiva/target/BuscaCompetitiva-1.0.jar MINIMAX 9
+
+Onde:
+1 parametro é o algoritmo:  MINIMAX
+2 parametro é a profundidade máxima de busca

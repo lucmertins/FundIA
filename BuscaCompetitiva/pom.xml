@@ -33,18 +33,11 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>br.com.mertins.ufpel.fia.ExecuteCompet</mainClass>
+                            <mainClass>br.com.mertins.ufpel.fia.competitiva.Execute</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-    <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>BuscaExaustiva</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
 </project>

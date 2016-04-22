@@ -1,13 +1,11 @@
-package br.com.mertins.ufpel.competitiva;
+package br.com.mertins.ufpel.fia.competitiva;
 
-import br.com.mertins.ufpel.competitiva.util.BoardTicTacToe;
-import br.com.mertins.ufpel.competitiva.util.Node;
-import br.com.mertins.ufpel.fia.util.BoardState;
-import br.com.mertins.ufpel.fia.util.Observator;
+import br.com.mertins.ufpel.fia.competitiva.util.BoardTicTacToe;
+import br.com.mertins.ufpel.fia.competitiva.util.Node;
+import br.com.mertins.ufpel.fia.competitiva.util.Observator;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 /**
  *
@@ -17,19 +15,22 @@ public class MiniMax {
 
     private final Observator observator;
     protected final BoardTicTacToe board;
+    private final int depth;
 
-    public MiniMax(Observator observator) {
+    public MiniMax(Observator observator,int depth) {
         this.observator = observator;
+        this.depth=depth;
         this.board = new BoardTicTacToe();
     }
 
     public Node run() {
-        minimax(board.getNodeBegin(), 20, true);
-        return board.getNodeBegin();
+        Node node=minimax(board.getNodeBegin(), this.depth, true);
+        this.observator.difference();
+        return node;
     }
 
-    public void print() {
-        this.board.print();
+    public void print(Node node) {
+        this.board.print(node);
     }
 
     public String time(Duration duration) {
@@ -39,8 +40,10 @@ public class MiniMax {
     }
 
     private Node minimax(Node node, int depth, boolean maximizingPlayer) {
-        if (depth == 0||this.board.terminal(node)) {
-            return this.board.heuristic(node);
+        if (depth == 0||this.board.gameOver(node)!=BoardTicTacToe.Resultado.EMJOGO) {
+            Node temp=this.board.heuristic(node);
+            this.observator.gameOver(node);
+            return temp;
         } else if (maximizingPlayer) {
             Node bestValue = new Node(Node.Infinite.NEGATIVE, Node.Marker.X);
             for (Node nodeChild : this.board.findCandidates(node)) {
@@ -57,5 +60,4 @@ public class MiniMax {
             return bestValue;
         }
     }
-
 }

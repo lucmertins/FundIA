@@ -1,4 +1,4 @@
-package br.com.mertins.ufpel.competitiva.util;
+package br.com.mertins.ufpel.fia.competitiva.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,20 +10,20 @@ import java.util.List;
 public class Node {
 
     public enum Infinite {
-        POSITIVE, NEGATIVE
+        POSITIVE, NEGATIVE, NONE
     }
 
     public enum Marker {
         X, O, B;
 
-        public String toString() {
+        public Marker invert() {
             switch (this) {
                 case X:
-                    return "X";
+                    return O;
                 case O:
-                    return "0";
+                    return X;
                 default:
-                    return "H";
+                    return B;
             }
         }
 
@@ -34,9 +34,10 @@ public class Node {
                 case O:
                     return '0';
                 default:
-                    return 'H';
+                    return ' ';
             }
         }
+
         public char toByte() {
             switch (this) {
                 case X:
@@ -48,28 +49,41 @@ public class Node {
             }
         }
     }
-    private final Long value;
-    private final Marker marker;
+    private int value;
+    private Marker marker;
     private final Infinite infinite;
     private final List<Node> children = new ArrayList<>();
     private Node parent = null;
     private byte posX;
     private byte posY;
 
-    public Node(Long value, Marker marker) {
+    public Node(int value, Marker marker) {
         this.value = value;
-        this.infinite = null;
+        this.infinite = Infinite.NONE;
         this.marker = marker;
     }
 
     public Node(Infinite infinite, Marker marker) {
         this.infinite = infinite;
-        this.value = null;
+        this.value = 0;
         this.marker = marker;
     }
 
-    public Long getValue() {
+    public int getValue() {
         return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+        Node temp = this.parent;
+        while (temp != null) {
+            if (temp.value < this.value) {
+                temp.value = this.value;
+                temp = temp.parent;
+            } else {
+                temp = null;
+            }
+        }
     }
 
     public Infinite getInfinite() {
@@ -78,6 +92,10 @@ public class Node {
 
     public Marker getMarker() {
         return marker;
+    }
+
+    public void setMarker(Marker marker) {
+        this.marker = marker;
     }
 
     public List<Node> getChildren() {
@@ -101,11 +119,33 @@ public class Node {
     }
 
     public Node max(Node other) {
-        return this.value >= other.value ? this : other;
+        if (other == null) {
+            return this;
+        }
+        if (this.infinite == Infinite.NONE && other.infinite == Infinite.NONE) {
+            return this.value >= other.value ? this : other;
+        } else if (this.infinite == Infinite.NEGATIVE && other.infinite != Infinite.NEGATIVE) {
+            return other;
+        } else if (this.infinite != Infinite.NEGATIVE && other.infinite == Infinite.NEGATIVE) {
+            return this;
+        } else {
+            return this;
+        }
     }
 
     public Node min(Node other) {
-        return this.value < other.value ? this : other;
+        if (other == null) {
+            return this;
+        }
+        if (this.infinite == Infinite.NONE && other.infinite == Infinite.NONE) {
+            return this.value < other.value ? this : other;
+        } else if (this.infinite == Infinite.POSITIVE && other.infinite != Infinite.POSITIVE) {
+            return other;
+        } else if (this.infinite != Infinite.POSITIVE && other.infinite == Infinite.POSITIVE) {
+            return this;
+        } else {
+            return this;
+        }
     }
 
     public void addChild(Node node) {
@@ -116,5 +156,5 @@ public class Node {
     public Node getParent() {
         return parent;
     }
-    
+
 }
