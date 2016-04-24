@@ -28,7 +28,7 @@ public class Board {
     }
 
     public void print(BoardState boardState) {
-        System.out.printf("Altura %s      Heuristica %d\n", boardState.getHeight(), boardState.getValueHeuristic());
+        System.out.printf("Altura %s      Heuristica %d     hashcode %d   \n", boardState.getHeight(), boardState.getValueHeuristic(),boardState.hashCode());
         for (int y = 0; y < this.size; y++) {
             for (int x = 0; x < this.size; x++) {
                 System.out.printf("%d\t", boardState.getSequence()[y][x]);

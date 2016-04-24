@@ -18,8 +18,8 @@ public class Execute {
                 System.out.println("***************** Estado Inicial Depth First Search **********");
                 search.print(search.getBeginState());
                 List<BoardState> solucao = search.run();
-//                System.out.println("***************** Solução **********");
-//                search.print(solucao);
+                System.out.println("***************** Solução **********");
+                search.print(solucao);
                 System.out.printf("***************** Movimentos [%d]\n", solucao.size());
             } catch (Exception ex) {
                 System.out.println("***************** Falha **********");
@@ -77,7 +77,7 @@ public class Execute {
 
     public static void main(String[] args) {
 
-        Observator.ALGORITHMS opcao = Observator.ALGORITHMS.IDS;
+        Observator.ALGORITHMS opcao = Observator.ALGORITHMS.DFS;
         int tabuleiro = 3;
         int embaralhar = 10;
         if (args.length == 3) {

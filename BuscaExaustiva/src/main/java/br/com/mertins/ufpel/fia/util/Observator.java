@@ -25,6 +25,7 @@ public class Observator {
     private final List<Event> eventos = new ArrayList();
     private long changePath = -1;
     private int height = -1;
+    private long hashColision = 0;
 
     public Observator(ALGORITHMS algorithm, int size, int shuffle) {
         this.algorithm = algorithm;
@@ -77,6 +78,14 @@ public class Observator {
         this.height = height;
     }
 
+    public long getHashColision() {
+        return hashColision;
+    }
+
+    public void setHashColision(long hashColision) {
+        this.hashColision = hashColision;
+    }
+
     public List<Event> getEvents() {
         return eventos;
     }
@@ -107,7 +116,7 @@ public class Observator {
         Duration duration = Duration.between(begin.getInstant(), Instant.now());
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
         String format = fmt.format(duration.addTo(LocalDateTime.of(0, 1, 1, 0, 0)));
-        System.out.printf("Execução [%s] Troc Path [%d] Height [%d]  MemFree [%dM]\n", format, changePath, height, Runtime.getRuntime().freeMemory() / 1048576);
+        System.out.printf("Execução [%s] Troc Path [%d] Height [%d] hashColisioin [%d] MemFree [%dM]\n", format, changePath, height, hashColision, Runtime.getRuntime().freeMemory() / 1048576);
         return format;
     }
 }

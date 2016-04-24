@@ -12,12 +12,14 @@ public class BoardState implements Serializable, Comparable {
     private int height;
     private BoardState father;
     private int valueHeuristic;
+    private int hash=0;
 
     public BoardState(int[][] sequence) {
         this.sequence = new int[sequence.length][sequence.length];
         for (int i = 0; i < sequence.length; i++) {
             System.arraycopy(sequence[i], 0, this.sequence[i], 0, sequence.length);
         }
+        hash=this.hashCode();
     }
 
     public int[][] getSequence() {
@@ -53,10 +55,21 @@ public class BoardState implements Serializable, Comparable {
         return this.valueHeuristic - ((BoardState) o).valueHeuristic;
     }
 
+    public int getHash() {
+        return hash;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + this.valueHeuristic;
+        int base = 0;
+        int hash = 0;
+        int size = this.sequence.length;
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                hash +=  Math.pow(10, base)*sequence[y][x];
+                base++;
+            }
+        }
         return hash;
     }
 
@@ -72,8 +85,13 @@ public class BoardState implements Serializable, Comparable {
             return false;
         }
         final BoardState other = (BoardState) obj;
-        if (this.valueHeuristic != other.valueHeuristic) {
-            return false;
+        int size = this.sequence.length;
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                if (sequence[y][x] != other.sequence[y][x]) {
+                    return false;
+                }
+            }
         }
         return true;
     }

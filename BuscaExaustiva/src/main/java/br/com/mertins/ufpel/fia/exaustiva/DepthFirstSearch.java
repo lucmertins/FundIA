@@ -4,7 +4,9 @@ import br.com.mertins.ufpel.fia.util.BasicSearch;
 import br.com.mertins.ufpel.fia.util.BoardState;
 import br.com.mertins.ufpel.fia.util.Element;
 import br.com.mertins.ufpel.fia.util.Observator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -15,6 +17,8 @@ import java.util.Stack;
 public class DepthFirstSearch extends BasicSearch {
 
     private final int limitRamo;
+
+    private final Set hashTable = new HashSet();
 
     /**
      * Construtor para realizar busca em profundidade no quebra-cabeça
@@ -28,15 +32,17 @@ public class DepthFirstSearch extends BasicSearch {
      */
     public DepthFirstSearch(Observator observator, boolean isShuffle) {
         super(observator, isShuffle);
-        this.limitRamo = observator.getShuffle()*10000;
+        this.limitRamo = observator.getShuffle() * 10000;
     }
 
     @Override
     public List<BoardState> run() {
         Stack<BoardState> pilha = new Stack<>();
         pilha.add(beginState);
+        this.hashTable.add(beginState);
         int nivel = 0;
         long countTrocaRamo = 0;
+        long hashColision = 0;
         try {
             while (!pilha.isEmpty()) {
                 BoardState testState = pilha.pop();
@@ -47,15 +53,20 @@ public class DepthFirstSearch extends BasicSearch {
                         Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
                         for (Element possibilidade : findCandidates) {
                             BoardState move = this.board.move(possibilidade, testState);
-                            nivel = testState.getHeight() + 1;
-                            move.setHeight(nivel);
-                            move.setFather(testState);
-                            pilha.add(move);
+                            if (!this.hashTable.contains(move)) {
+                                nivel = testState.getHeight() + 1;
+                                move.setHeight(nivel);
+                                move.setFather(testState);
+                                this.hashTable.add(move);
+
+                                pilha.add(move);
+                            } else {
+                                observator.setHashColision(hashColision++);
+                            }
                         }
                     } else {
-                        observator.setChangePath(countTrocaRamo);
+                        observator.setChangePath(countTrocaRamo++);
                         observator.setHeight(nivel);
-                        countTrocaRamo++;
                     }
                 } else {
                     observator.okSolution();
