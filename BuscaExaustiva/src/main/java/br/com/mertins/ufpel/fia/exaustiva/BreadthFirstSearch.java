@@ -4,9 +4,11 @@ import br.com.mertins.ufpel.fia.util.BasicSearch;
 import br.com.mertins.ufpel.fia.util.BoardState;
 import br.com.mertins.ufpel.fia.util.Element;
 import br.com.mertins.ufpel.fia.util.Observator;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 
 /**
  * Busca em amplitude no quebra-cabeça deslizante
@@ -32,8 +34,13 @@ public class BreadthFirstSearch extends BasicSearch {
         Queue<BoardState> lista = new LinkedList<>();
         lista.add(beginState);
         int nivel = 0;
+        long hashColision = 0;
         try {
             while (!lista.isEmpty()) {
+                if (observator.isTimeOver()) {
+                    observator.errSolution(nivel);
+                    throw new RuntimeException(String.format("Tempo excedido! Nivel atingido [%s]", nivel));
+                }
                 BoardState testState = lista.poll();
 //            this.board.print(testState);    // informações parciais
                 if (!this.board.isTheSolution(testState)) {
@@ -41,9 +48,14 @@ public class BreadthFirstSearch extends BasicSearch {
                     Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
                     for (Element possibilidade : findCandidates) {
                         BoardState move = this.board.move(possibilidade, testState);
-                        move.setHeight(nivel);
-                        move.setFather(testState);
-                        lista.add(move);
+                        if (!this.hashTable.contains(move)) {
+                            move.setHeight(nivel);
+                            move.setFather(testState);
+                            this.hashTable.add(move);
+                            lista.add(move);
+                        } else {
+                            observator.setHashColision(hashColision++);
+                        }
                     }
                     observator.setChangePath(nivel);
                 } else {

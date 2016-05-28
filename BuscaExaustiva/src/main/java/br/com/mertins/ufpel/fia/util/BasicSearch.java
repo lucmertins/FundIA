@@ -3,7 +3,9 @@ package br.com.mertins.ufpel.fia.util;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -16,17 +18,21 @@ public abstract class BasicSearch {
     protected final Board board;
     protected final BoardState beginState;
     protected final boolean isShuffle;
+    protected final Set hashTable = new HashSet();
 
     /**
      * Construtor basico para busca no quebra-cabeça deslizante
      *
-     * @param observator classe responsável em receber as informações que servirão ao relatório
-     * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a repetição de ir e vir da mesma peça)
+     * @param observator classe responsável em receber as informações que
+     * servirão ao relatório
+     * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a
+     * repetição de ir e vir da mesma peça)
      */
     public BasicSearch(Observator observator, boolean isShuffle) {
         this.observator = observator;
         this.board = new Board(observator.getSize());
         this.beginState = this.board.shuffle(observator.getShuffle());
+        this.hashTable.add(beginState);
         this.isShuffle = isShuffle;
     }
 
@@ -56,10 +62,10 @@ public abstract class BasicSearch {
         }
         return solucao;
     }
-    
-    public String time(Duration duration){
-        DateTimeFormatter  fmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
-        String format = fmt.format(duration.addTo(LocalDateTime.of( 0 , 1 ,1 , 0 , 0 )));
+
+    public String time(Duration duration) {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
+        String format = fmt.format(duration.addTo(LocalDateTime.of(0, 1, 1, 0, 0)));
         return format;
     }
 

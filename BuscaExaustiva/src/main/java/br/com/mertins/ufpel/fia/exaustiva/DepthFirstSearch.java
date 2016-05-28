@@ -18,8 +18,6 @@ public class DepthFirstSearch extends BasicSearch {
 
     private final int limitRamo;
 
-    private final Set hashTable = new HashSet();
-
     /**
      * Construtor para realizar busca em profundidade no quebra-cabeça
      * deslizante
@@ -39,12 +37,15 @@ public class DepthFirstSearch extends BasicSearch {
     public List<BoardState> run() {
         Stack<BoardState> pilha = new Stack<>();
         pilha.add(beginState);
-        this.hashTable.add(beginState);
         int nivel = 0;
         long countTrocaRamo = 0;
         long hashColision = 0;
         try {
             while (!pilha.isEmpty()) {
+                if (observator.isTimeOver()) {
+                    observator.errSolution(nivel);
+                    throw new RuntimeException(String.format("Tempo excedido! Nivel atingido [%s]", nivel));
+                }
                 BoardState testState = pilha.pop();
 //                this.board.print(testState);   // informações parciais
                 if (!this.board.isTheSolution(testState)) {
@@ -58,7 +59,6 @@ public class DepthFirstSearch extends BasicSearch {
                                 move.setHeight(nivel);
                                 move.setFather(testState);
                                 this.hashTable.add(move);
-
                                 pilha.add(move);
                             } else {
                                 observator.setHashColision(hashColision++);

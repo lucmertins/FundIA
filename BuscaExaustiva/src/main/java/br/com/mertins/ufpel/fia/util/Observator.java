@@ -111,6 +111,16 @@ public class Observator {
         return null;
     }
 
+    public boolean isTimeOver() {
+        if (this.eventos.isEmpty()) {
+            return false;
+        } else {
+            Event begin = this.eventos.get(0);
+            Duration duration = Duration.between(begin.getInstant(), Instant.now());
+            return duration.toMinutes() > 5;
+        }
+    }
+
     private String informe() {
         Event begin = this.eventos.get(0);
         Duration duration = Duration.between(begin.getInstant(), Instant.now());

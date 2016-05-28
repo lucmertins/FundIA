@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class IterativeDepthFirstSearch extends BasicSearch {
 
+    private long hashColision = 0;
+
     /**
      * Construtor para realizar busca em aprofundamento iterativo no
      * quebra-cabeça deslizante
@@ -29,6 +31,7 @@ public class IterativeDepthFirstSearch extends BasicSearch {
     @Override
     public List<BoardState> run() {
         int depth = 0;
+
         try {
             while (true) {
                 BoardState testState = algDFS(beginState, depth);
@@ -53,12 +56,17 @@ public class IterativeDepthFirstSearch extends BasicSearch {
             Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
             for (Element possibilidade : findCandidates) {
                 BoardState move = this.board.move(possibilidade, testState);
-                move.setHeight(testState.getHeight() + 1);
-                move.setFather(testState);
-//                this.board.print(testState);    // informações parciais
-                BoardState ret = this.algDFS(move, depth - 1);
-                if (ret != null && this.board.isTheSolution(ret)) {
-                    return ret;
+                if (!this.hashTable.contains(move)) {
+                    move.setHeight(testState.getHeight() + 1);
+                    move.setFather(testState);
+                    this.hashTable.add(move);
+//                    this.board.print(testState);    // informações parciais
+                    BoardState ret = this.algDFS(move, depth - 1);
+                    if (ret != null && this.board.isTheSolution(ret)) {
+                        return ret;
+                    }
+                } else {
+                    observator.setHashColision(hashColision++);
                 }
             }
         }
