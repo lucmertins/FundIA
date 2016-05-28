@@ -11,15 +11,19 @@ import java.util.List;
  */
 public class Execute {
 
-    public static void depthFirstSearch(final Observator observador, final boolean isShuffle) {
+    public static void depthFirstSearch(final Observator observador, final boolean isShuffle, final boolean showInitialState, boolean showSolution) {
         new Thread(() -> {
             DepthFirstSearch search = new DepthFirstSearch(observador, isShuffle);
             try {
-                System.out.println("***************** Estado Inicial Depth First Search **********");
-                search.print(search.getBeginState());
+                if (showInitialState) {
+                    System.out.println("***************** Estado Inicial Depth First Search **********");
+                    search.print(search.getBeginState());
+                }
                 List<BoardState> solucao = search.run();
-                System.out.println("***************** Solução **********");
-                search.print(solucao);
+                if (showSolution) {
+                    System.out.println("***************** Solução **********");
+                    search.print(solucao);
+                }
                 System.out.printf("***************** Movimentos [%d]\n", solucao.size());
             } catch (Exception ex) {
                 System.out.println("***************** Falha **********");
@@ -32,15 +36,19 @@ public class Execute {
         }).start();
     }
 
-    public static void breadthFirstSearch(final Observator observador, final boolean isShuffle) {
+    public static void breadthFirstSearch(final Observator observador, final boolean isShuffle, final boolean showInitialState, boolean showSolution) {
         new Thread(() -> {
             BreadthFirstSearch search = new BreadthFirstSearch(observador, isShuffle);
             try {
-                System.out.println("***************** Estado Inicial Breadth First Search **********");
-                search.print(search.getBeginState());
+                if (showInitialState) {
+                    System.out.println("***************** Estado Inicial Breadth First Search **********");
+                    search.print(search.getBeginState());
+                }
                 List<BoardState> solucao = search.run();
-                System.out.println("***************** Solução **********");
-                search.print(solucao);
+                if (showSolution) {
+                    System.out.println("***************** Solução **********");
+                    search.print(solucao);
+                }
                 System.out.printf("***************** Movimentos [%d]\n", solucao.size());
             } catch (Exception ex) {
                 System.out.println("***************** Falha **********");
@@ -54,15 +62,19 @@ public class Execute {
         }).start();
     }
 
-    public static void iterativeDepthSearch(final Observator observador, final boolean isShuffle) {
+    public static void iterativeDepthSearch(final Observator observador, final boolean isShuffle, final boolean showInitialState, boolean showSolution) {
         new Thread(() -> {
             IterativeDepthFirstSearch search = new IterativeDepthFirstSearch(observador, isShuffle);
             try {
-                System.out.println("***************** Estado Inicial Iterative Depth First Search **********");
-                search.print(search.getBeginState());
+                if (showInitialState) {
+                    System.out.println("***************** Estado Inicial Iterative Depth First Search **********");
+                    search.print(search.getBeginState());
+                }
                 List<BoardState> solucao = search.run();
-                System.out.println("***************** Solução **********");
-                search.print(solucao);
+                if (showSolution) {
+                    System.out.println("***************** Solução **********");
+                    search.print(solucao);
+                }
                 System.out.printf("***************** Movimentos [%d]\n", solucao.size());
             } catch (Exception ex) {
                 System.out.println("***************** Falha **********");
@@ -80,13 +92,17 @@ public class Execute {
         Observator.ALGORITHMS opcao = Observator.ALGORITHMS.DFS;
         int tabuleiro = 3;
         int embaralhar = 10;
-        if (args.length == 3) {
+        boolean mostrarEstadoInicial = false;
+        boolean mostrarSolucao = false;
+        if (args.length == 5) {
             try {
                 opcao = Observator.ALGORITHMS.valueOf(args[0]);
                 tabuleiro = Integer.valueOf(args[1]);
                 embaralhar = Integer.valueOf(args[2]);
+                mostrarEstadoInicial = Boolean.valueOf(args[3]);
+                mostrarSolucao = Boolean.valueOf(args[4]);
             } catch (Exception ex) {
-                System.out.println("usar: DFS|BFS|IDS tamanhoTabuleiro vezesEmbaralhado");
+                System.out.println("usar: DFS|BFS|IDS tamanhoTabuleiro vezesEmbaralhado mostrarEstadoInicial mostrarSolucao");
                 System.out.println("Falha");
                 ex.printStackTrace();
                 System.exit(1);
@@ -96,13 +112,13 @@ public class Execute {
         Observator observador = new Observator(opcao, tabuleiro, embaralhar);
         switch (opcao) {
             case DFS:
-                Execute.depthFirstSearch(observador, true);
+                Execute.depthFirstSearch(observador, true, mostrarEstadoInicial, mostrarSolucao);
                 break;
             case BFS:
-                Execute.breadthFirstSearch(observador, true);
+                Execute.breadthFirstSearch(observador, true, mostrarEstadoInicial, mostrarSolucao);
                 break;
             case IDS:
-                Execute.iterativeDepthSearch(observador, true);
+                Execute.iterativeDepthSearch(observador, true, mostrarEstadoInicial, mostrarSolucao);
                 break;
 
         }
