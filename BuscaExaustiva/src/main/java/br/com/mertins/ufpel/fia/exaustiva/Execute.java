@@ -89,7 +89,7 @@ public class Execute {
 
     public static void main(String[] args) {
 
-        Observator.ALGORITHMS opcao = Observator.ALGORITHMS.DFS;
+        Observator.ALGORITHMS opcao = Observator.ALGORITHMS.BFS;
         int tabuleiro = 3;
         int embaralhar = 50;
         boolean mostrarEstadoInicial = false;
