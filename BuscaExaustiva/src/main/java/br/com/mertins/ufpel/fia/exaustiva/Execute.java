@@ -91,7 +91,7 @@ public class Execute {
 
         Observator.ALGORITHMS opcao = Observator.ALGORITHMS.DFS;
         int tabuleiro = 3;
-        int embaralhar = 10;
+        int embaralhar = 50;
         boolean mostrarEstadoInicial = false;
         boolean mostrarSolucao = false;
         if (args.length == 5) {

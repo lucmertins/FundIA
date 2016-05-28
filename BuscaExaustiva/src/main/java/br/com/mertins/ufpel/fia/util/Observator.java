@@ -104,7 +104,7 @@ public class Observator {
     public Duration difference() {
         if (this.eventos.size() > 0) {
             Event begin = this.eventos.get(0);
-            Event end = this.eventos.get(this.eventos.size() - 5);
+            Event end = this.eventos.get(this.eventos.size() - 1);
             Duration duracao = Duration.between(begin.getInstant(), end.getInstant());
             return duracao;
         }
