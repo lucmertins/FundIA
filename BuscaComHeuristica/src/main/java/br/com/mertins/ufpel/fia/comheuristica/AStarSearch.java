@@ -39,8 +39,13 @@ public class AStarSearch extends BasicSearch {
         Queue<BoardState> lista = new PriorityQueue<>();
         lista.add(beginState);
         int nivel = 0;
+        long hashColision = 0;
         try {
             while (!lista.isEmpty()) {
+                if (observator.isTimeOver()) {
+                    observator.errSolution(nivel);
+                    throw new RuntimeException(String.format("Tempo excedido! Nivel atingido [%s]", nivel));
+                }
                 BoardState testState = lista.poll();
                 testState.setValueHeuristic(heuristic(testState, nivel));
 //                this.board.print(testState);    // informações parciais
@@ -49,10 +54,15 @@ public class AStarSearch extends BasicSearch {
                     Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
                     for (Element possibilidade : findCandidates) {
                         BoardState move = this.board.move(possibilidade, testState);
-                        move.setHeight(nivel);
-                        move.setFather(testState);
-                        move.setValueHeuristic(heuristic(move, nivel));
-                        lista.add(move);
+                        if (!this.hashTable.contains(move)) {
+                            move.setHeight(nivel);
+                            move.setFather(testState);
+                            move.setValueHeuristic(heuristic(move, nivel));
+                            this.hashTable.add(move);
+                            lista.add(move);
+                        } else {
+                            observator.setHashColision(hashColision++);
+                        }
                     }
                     observator.setChangePath(nivel);
                 } else {

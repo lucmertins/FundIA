@@ -15,8 +15,10 @@ public class Execute {
         new Thread(() -> {
             AStarSearch search = new AStarSearch(observador, isShuffle, heuristic);
             try {
-                System.out.println("***************** Estado Inicial A* Search **********");
-                search.print(search.getBeginState());
+                if (showInitialState) {
+                    System.out.println("***************** Estado Inicial A* Search **********");
+                    search.print(search.getBeginState());
+                }
                 List<BoardState> solucao = search.run();
                 if (showSolution) {
                     System.out.println("***************** Solução **********");
@@ -39,7 +41,7 @@ public class Execute {
 
         Observator.ALGORITHMS opcao = Observator.ALGORITHMS.ASTAR;
         int tabuleiro = 3;
-        int embaralhar = 100;
+        int embaralhar = 500;
         AStarSearch.Heuristics heuristic = AStarSearch.Heuristics.MANHATAN;
         boolean mostrarEstadoInicial = false;
         boolean mostrarSolucao = false;
