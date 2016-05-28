@@ -48,6 +48,10 @@ public class IterativeDepthFirstSearch extends BasicSearch {
     }
 
     private BoardState algDFS(BoardState testState, int depth) {
+        if (observator.isTimeOver()) {
+            observator.errSolution(depth);
+            throw new RuntimeException(String.format("Tempo excedido! Nivel atingido [%s]", depth));
+        }
         if (this.board.isTheSolution(testState)) {
             return testState;
         } else if (depth == 0) {
