@@ -40,28 +40,30 @@ public class Execute {
     public static void main(String[] args) {
 
         Observator.ALGORITHMS opcao = Observator.ALGORITHMS.ASTAR;
-        int tabuleiro = 3;
+        int tabuleiro = 4;
         int embaralhar = 500;
+        int tempoEmMinutos = 5;
         AStarSearch.Heuristics heuristic = AStarSearch.Heuristics.MANHATAN;
         boolean mostrarEstadoInicial = false;
         boolean mostrarSolucao = false;
-        if (args.length == 6) {
+        if (args.length == 7) {
             try {
                 opcao = Observator.ALGORITHMS.valueOf(args[0]);
                 tabuleiro = Integer.valueOf(args[1]);
                 embaralhar = Integer.valueOf(args[2]);
-                mostrarEstadoInicial = Boolean.valueOf(args[3]);
-                mostrarSolucao = Boolean.valueOf(args[4]);
-                heuristic = AStarSearch.Heuristics.valueOf(args[5]);
+                tempoEmMinutos = Integer.valueOf(args[3]);
+                mostrarEstadoInicial = Boolean.valueOf(args[4]);
+                mostrarSolucao = Boolean.valueOf(args[5]);
+                heuristic = AStarSearch.Heuristics.valueOf(args[6]);
             } catch (Exception ex) {
-                System.out.println("usar: ASTAR tamanhoTabuleiro vezesEmbaralhado mostrarEstadoInicial mostrarSolucao heuristica");
+                System.out.println("usar: ASTAR tamanhoTabuleiro vezesEmbaralhado tempoEmMinutos mostrarEstadoInicial mostrarSolucao heuristica");
                 System.out.println("Falha");
                 ex.printStackTrace();
                 System.exit(1);
             }
         }
-        System.out.printf("Algoritmo[%s] Tamanho [%d] Heuristica [%s] Embaralhado %d vezes  Heuristica [%s]\n ", opcao.toString(), tabuleiro, heuristic, embaralhar, heuristic);
-        Observator observador = new Observator(opcao, tabuleiro, embaralhar);
+        System.out.printf("Algoritmo[%s] Tamanho [%d] Heuristica [%s] Embaralhado %d vezes \n ", opcao.toString(), tabuleiro, heuristic, embaralhar);
+        Observator observador = new Observator(opcao, tabuleiro, embaralhar, tempoEmMinutos);
         switch (opcao) {
             case ASTAR:
                 Execute.aStarSearch(observador, true, mostrarEstadoInicial, mostrarSolucao, heuristic);

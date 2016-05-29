@@ -47,7 +47,7 @@ public class DepthFirstSearch extends BasicSearch {
                     throw new RuntimeException(String.format("Tempo excedido! Nivel atingido [%s]", nivel));
                 }
                 BoardState testState = pilha.pop();
-//                this.board.print(testState);   // informações parciais
+                this.board.print(testState);   // informações parciais
                 if (!this.board.isTheSolution(testState)) {
                     nivel = testState.getHeight() + 1;
                     if (nivel <= limitRamo) {

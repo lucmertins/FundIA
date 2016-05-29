@@ -89,27 +89,29 @@ public class Execute {
 
     public static void main(String[] args) {
 
-        Observator.ALGORITHMS opcao = Observator.ALGORITHMS.IDS;
-        int tabuleiro = 3;
-        int embaralhar = 500;
-        boolean mostrarEstadoInicial = false;
+        Observator.ALGORITHMS opcao = Observator.ALGORITHMS.DFS;
+        int tabuleiro = 4;
+        int embaralhar = 3;
+        int tempoEmMinutos = 5;
+        boolean mostrarEstadoInicial = true;
         boolean mostrarSolucao = false;
-        if (args.length == 5) {
+        if (args.length == 6) {
             try {
                 opcao = Observator.ALGORITHMS.valueOf(args[0]);
                 tabuleiro = Integer.valueOf(args[1]);
                 embaralhar = Integer.valueOf(args[2]);
-                mostrarEstadoInicial = Boolean.valueOf(args[3]);
-                mostrarSolucao = Boolean.valueOf(args[4]);
+                tempoEmMinutos = Integer.valueOf(args[3]);
+                mostrarEstadoInicial = Boolean.valueOf(args[4]);
+                mostrarSolucao = Boolean.valueOf(args[5]);
             } catch (Exception ex) {
-                System.out.println("usar: DFS|BFS|IDS tamanhoTabuleiro vezesEmbaralhado mostrarEstadoInicial mostrarSolucao");
+                System.out.println("usar: DFS|BFS|IDS tamanhoTabuleiro vezesEmbaralhado tempoEmMinutos mostrarEstadoInicial mostrarSolucao");
                 System.out.println("Falha");
                 ex.printStackTrace();
                 System.exit(1);
             }
         }
         System.out.printf("Algoritmo[%s] Tamanho [%d] Embaralhado %d vezes\n ", opcao.toString(), tabuleiro, embaralhar);
-        Observator observador = new Observator(opcao, tabuleiro, embaralhar);
+        Observator observador = new Observator(opcao, tabuleiro, embaralhar,tempoEmMinutos);
         switch (opcao) {
             case DFS:
                 Execute.depthFirstSearch(observador, true, mostrarEstadoInicial, mostrarSolucao);

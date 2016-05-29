@@ -26,11 +26,13 @@ public class Observator {
     private long changePath = -1;
     private int height = -1;
     private long hashColision = 0;
+    private int time;
 
-    public Observator(ALGORITHMS algorithm, int size, int shuffle) {
+    public Observator(ALGORITHMS algorithm, int size, int shuffle, int time) {
         this.algorithm = algorithm;
         this.size = size;
         this.shuffle = shuffle;
+        this.time=time>0?time-1:0;
         this.eventos.add(new Event("Begin "));
         Thread th = new Thread(() -> {
             while (run) {
@@ -117,7 +119,7 @@ public class Observator {
         } else {
             Event begin = this.eventos.get(0);
             Duration duration = Duration.between(begin.getInstant(), Instant.now());
-            return duration.toMinutes() > 4;
+            return duration.toMinutes() > time;
         }
     }
 
