@@ -60,28 +60,19 @@ public class IterativeDepthFirstSearch extends BasicSearch {
             Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
             for (Element possibilidade : findCandidates) {
                 BoardState move = this.board.move(possibilidade, testState);
-                if (withHash) {
-                    if (!this.hashTable.contains(move)) {
-                        move.setHeight(testState.getHeight() + 1);
-                        move.setFather(testState);
-                        this.hashTable.add(move);
-//                    this.board.print(testState);    // informações parciais
-                        BoardState ret = this.algDFS(move, depth - 1);
-                        if (ret != null && this.board.isTheSolution(ret)) {
-                            return ret;
-                        }
-                    } else {
-                        observator.setHashColision(hashColision++);
-                    }
-                } else {
+                if (!withHash || !this.hashTable.contains(move)) {
                     move.setHeight(testState.getHeight() + 1);
                     move.setFather(testState);
-                    this.hashTable.add(move);
+                    if (withHash) {
+                        this.hashTable.add(move);
+                    }
 //                    this.board.print(testState);    // informações parciais
                     BoardState ret = this.algDFS(move, depth - 1);
                     if (ret != null && this.board.isTheSolution(ret)) {
                         return ret;
                     }
+                } else {
+                    observator.setHashColision(hashColision++);
                 }
             }
         }

@@ -15,12 +15,22 @@ Para executar busca exaustiva:
 
 Onde:
     1 parametro é o algoritmo:  DFS|BFS|IDS
+
     2 parametro é o tamanho do tabuleiro
+
     3 parametro é o número de movimentos aleatórios para embaralhar o tabuleiro
+
     4 parametro é a tempo máximo de duração do algoritmo
+
     5 paremetro é a solicitação para mostrar ou não o estado inicial após embaralhado
+
     6 paremetro é a solicitação para mostrar ou não a solução encontrada
+
     7 parametro é a indicação para usar ou não controle via hash de movimentos já avaliados
+
+
+
+
 
 
 
@@ -30,13 +40,22 @@ Para executar busca com Heurística:
 
 Onde:
     1 parametro é o algoritmo:  ASTAR
+
     2 parametro é o tamanho do tabuleiro
+
     3 parametro é o número de movimentos aleatórios para embaralhar o tabuleiro
+
     4 parametro é a tempo máximo de duração do algoritmo
+
     5 paremetro é a solicitação para mostrar ou não o estado inicial após embaralhado
+
     6 paremetro é a solicitação para mostrar ou não a solução encontrada
+
     7 parametro é a indicação para usar ou não controle via hash de movimentos já avaliados
+
     8 parametro é a heuristica MANHATAN|HAMMING
+
+
 
 
 
@@ -46,4 +65,5 @@ Para executar o Minimax
 
 Onde:
     1 parametro é o algoritmo:  MINIMAX
+
     2 parametro é a profundidade máxima de busca

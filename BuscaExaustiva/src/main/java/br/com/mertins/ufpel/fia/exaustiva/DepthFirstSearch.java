@@ -54,22 +54,16 @@ public class DepthFirstSearch extends BasicSearch {
                         Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
                         for (Element possibilidade : findCandidates) {
                             BoardState move = this.board.move(possibilidade, testState);
-                            if (withHash) {
-                                if (!this.hashTable.contains(move)) {
-                                    nivel = testState.getHeight() + 1;
-                                    move.setHeight(nivel);
-                                    move.setFather(testState);
-                                    this.hashTable.add(move);
-                                    pilha.add(move);
-                                } else {
-                                    observator.setHashColision(hashColision++);
-                                }
-                            } else {
+                            if (!withHash || !this.hashTable.contains(move)) {
                                 nivel = testState.getHeight() + 1;
                                 move.setHeight(nivel);
                                 move.setFather(testState);
-                                this.hashTable.add(move);
+                                if (withHash) {
+                                    this.hashTable.add(move);
+                                }
                                 pilha.add(move);
+                            } else {
+                                observator.setHashColision(hashColision++);
                             }
                         }
                     } else {
