@@ -26,10 +26,10 @@ public class DepthFirstSearch extends BasicSearch {
      * servirão ao relatório
      * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a
      * repetição de ir e vir da mesma peça)
-     *
+     * @param withHash usa tabela de hash para evitar movimentos já avaliados
      */
-    public DepthFirstSearch(Observator observator, boolean isShuffle) {
-        super(observator, isShuffle);
+    public DepthFirstSearch(Observator observator, boolean isShuffle, boolean withHash) {
+        super(observator, isShuffle, withHash);
         this.limitRamo = observator.getShuffle() * 10000;
     }
 
@@ -54,14 +54,22 @@ public class DepthFirstSearch extends BasicSearch {
                         Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
                         for (Element possibilidade : findCandidates) {
                             BoardState move = this.board.move(possibilidade, testState);
-                            if (!this.hashTable.contains(move)) {
+                            if (withHash) {
+                                if (!this.hashTable.contains(move)) {
+                                    nivel = testState.getHeight() + 1;
+                                    move.setHeight(nivel);
+                                    move.setFather(testState);
+                                    this.hashTable.add(move);
+                                    pilha.add(move);
+                                } else {
+                                    observator.setHashColision(hashColision++);
+                                }
+                            } else {
                                 nivel = testState.getHeight() + 1;
                                 move.setHeight(nivel);
                                 move.setFather(testState);
                                 this.hashTable.add(move);
                                 pilha.add(move);
-                            } else {
-                                observator.setHashColision(hashColision++);
                             }
                         }
                     } else {

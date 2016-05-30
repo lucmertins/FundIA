@@ -27,10 +27,11 @@ public class AStarSearch extends BasicSearch {
      * servirão ao relatório
      * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a
      * repetição de ir e vir da mesma peça)
+     * @param withHash usa tabela de hash para evitar movimentos já avaliados
      * @param heuristic qual função heuristica deve ser utilizada
      */
-    public AStarSearch(Observator observator, boolean isShuffle, Heuristics heuristic) {
-        super(observator, isShuffle);
+    public AStarSearch(Observator observator, boolean isShuffle, boolean withHash, Heuristics heuristic) {
+        super(observator, isShuffle, withHash);
         this.heuristic = heuristic;
     }
 
@@ -54,14 +55,22 @@ public class AStarSearch extends BasicSearch {
                     Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
                     for (Element possibilidade : findCandidates) {
                         BoardState move = this.board.move(possibilidade, testState);
-                        if (!this.hashTable.contains(move)) {
+                        if (withHash) {
+                            if (!this.hashTable.contains(move)) {
+                                move.setHeight(nivel);
+                                move.setFather(testState);
+                                move.setValueHeuristic(heuristic(move, nivel));
+                                this.hashTable.add(move);
+                                lista.add(move);
+                            } else {
+                                observator.setHashColision(hashColision++);
+                            }
+                        } else {
                             move.setHeight(nivel);
                             move.setFather(testState);
                             move.setValueHeuristic(heuristic(move, nivel));
                             this.hashTable.add(move);
                             lista.add(move);
-                        } else {
-                            observator.setHashColision(hashColision++);
                         }
                     }
                     observator.setChangePath(nivel);

@@ -11,9 +11,9 @@ import java.util.List;
  */
 public class Execute {
 
-    public static void depthFirstSearch(final Observator observador, final boolean isShuffle, final boolean showInitialState, boolean showSolution) {
+    public static void depthFirstSearch(final Observator observador, final boolean isShuffle, final boolean showInitialState, boolean showSolution, boolean withHash) {
         new Thread(() -> {
-            DepthFirstSearch search = new DepthFirstSearch(observador, isShuffle);
+            DepthFirstSearch search = new DepthFirstSearch(observador, isShuffle, withHash);
             try {
                 if (showInitialState) {
                     System.out.println("***************** Estado Inicial Depth First Search **********");
@@ -36,9 +36,9 @@ public class Execute {
         }).start();
     }
 
-    public static void breadthFirstSearch(final Observator observador, final boolean isShuffle, final boolean showInitialState, boolean showSolution) {
+    public static void breadthFirstSearch(final Observator observador, final boolean isShuffle, final boolean showInitialState, boolean showSolution, boolean withHash) {
         new Thread(() -> {
-            BreadthFirstSearch search = new BreadthFirstSearch(observador, isShuffle);
+            BreadthFirstSearch search = new BreadthFirstSearch(observador, isShuffle, withHash);
             try {
                 if (showInitialState) {
                     System.out.println("***************** Estado Inicial Breadth First Search **********");
@@ -62,9 +62,9 @@ public class Execute {
         }).start();
     }
 
-    public static void iterativeDepthSearch(final Observator observador, final boolean isShuffle, final boolean showInitialState, boolean showSolution) {
+    public static void iterativeDepthSearch(final Observator observador, final boolean isShuffle, final boolean showInitialState, boolean showSolution, boolean withHash) {
         new Thread(() -> {
-            IterativeDepthFirstSearch search = new IterativeDepthFirstSearch(observador, isShuffle);
+            IterativeDepthFirstSearch search = new IterativeDepthFirstSearch(observador, isShuffle, withHash);
             try {
                 if (showInitialState) {
                     System.out.println("***************** Estado Inicial Iterative Depth First Search **********");
@@ -88,14 +88,14 @@ public class Execute {
     }
 
     public static void main(String[] args) {
-
         Observator.ALGORITHMS opcao = Observator.ALGORITHMS.DFS;
         int tabuleiro = 4;
         int embaralhar = 3;
         int tempoEmMinutos = 5;
         boolean mostrarEstadoInicial = true;
         boolean mostrarSolucao = false;
-        if (args.length == 6) {
+        boolean comHash = false;
+        if (args.length == 7) {
             try {
                 opcao = Observator.ALGORITHMS.valueOf(args[0]);
                 tabuleiro = Integer.valueOf(args[1]);
@@ -103,27 +103,27 @@ public class Execute {
                 tempoEmMinutos = Integer.valueOf(args[3]);
                 mostrarEstadoInicial = Boolean.valueOf(args[4]);
                 mostrarSolucao = Boolean.valueOf(args[5]);
+                comHash = Boolean.valueOf(args[6]);
             } catch (Exception ex) {
-                System.out.println("usar: DFS|BFS|IDS tamanhoTabuleiro vezesEmbaralhado tempoEmMinutos mostrarEstadoInicial mostrarSolucao");
+                System.out.println("usar: DFS|BFS|IDS tamanhoTabuleiro vezesEmbaralhado tempoEmMinutos mostrarEstadoInicial mostrarSolucao comHash");
                 System.out.println("Falha");
                 ex.printStackTrace();
                 System.exit(1);
             }
         }
-        System.out.printf("Algoritmo[%s] Tamanho [%d] Embaralhado %d vezes\n ", opcao.toString(), tabuleiro, embaralhar);
-        Observator observador = new Observator(opcao, tabuleiro, embaralhar,tempoEmMinutos);
+        System.out.printf("Algoritmo[%s] Tamanho [%d] Embaralhado %d vezes      hash[%b] \n ", opcao.toString(), tabuleiro, embaralhar, comHash);
+        Observator observador = new Observator(opcao, tabuleiro, embaralhar, tempoEmMinutos);
         switch (opcao) {
             case DFS:
-                Execute.depthFirstSearch(observador, true, mostrarEstadoInicial, mostrarSolucao);
+                Execute.depthFirstSearch(observador, true, mostrarEstadoInicial, mostrarSolucao, comHash);
                 break;
             case BFS:
-                Execute.breadthFirstSearch(observador, true, mostrarEstadoInicial, mostrarSolucao);
+                Execute.breadthFirstSearch(observador, true, mostrarEstadoInicial, mostrarSolucao, comHash);
                 break;
             case IDS:
-                Execute.iterativeDepthSearch(observador, true, mostrarEstadoInicial, mostrarSolucao);
+                Execute.iterativeDepthSearch(observador, true, mostrarEstadoInicial, mostrarSolucao, comHash);
                 break;
 
         }
-
     }
 }

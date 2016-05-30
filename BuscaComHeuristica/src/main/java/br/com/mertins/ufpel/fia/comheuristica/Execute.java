@@ -11,9 +11,9 @@ import java.util.List;
  */
 public class Execute {
 
-    public static void aStarSearch(final Observator observador, final boolean isShuffle, final boolean showInitialState, final boolean showSolution, AStarSearch.Heuristics heuristic) {
+    public static void aStarSearch(final Observator observador, final boolean isShuffle, final boolean showInitialState, final boolean showSolution, boolean withHash, AStarSearch.Heuristics heuristic) {
         new Thread(() -> {
-            AStarSearch search = new AStarSearch(observador, isShuffle, heuristic);
+            AStarSearch search = new AStarSearch(observador, isShuffle, withHash, heuristic);
             try {
                 if (showInitialState) {
                     System.out.println("***************** Estado Inicial A* Search **********");
@@ -46,7 +46,8 @@ public class Execute {
         AStarSearch.Heuristics heuristic = AStarSearch.Heuristics.MANHATAN;
         boolean mostrarEstadoInicial = false;
         boolean mostrarSolucao = false;
-        if (args.length == 7) {
+        boolean comHash = false;
+        if (args.length == 8) {
             try {
                 opcao = Observator.ALGORITHMS.valueOf(args[0]);
                 tabuleiro = Integer.valueOf(args[1]);
@@ -54,19 +55,20 @@ public class Execute {
                 tempoEmMinutos = Integer.valueOf(args[3]);
                 mostrarEstadoInicial = Boolean.valueOf(args[4]);
                 mostrarSolucao = Boolean.valueOf(args[5]);
-                heuristic = AStarSearch.Heuristics.valueOf(args[6]);
+                comHash = Boolean.valueOf(args[6]);
+                heuristic = AStarSearch.Heuristics.valueOf(args[7]);
             } catch (Exception ex) {
-                System.out.println("usar: ASTAR tamanhoTabuleiro vezesEmbaralhado tempoEmMinutos mostrarEstadoInicial mostrarSolucao heuristica");
+                System.out.println("usar: ASTAR tamanhoTabuleiro vezesEmbaralhado tempoEmMinutos mostrarEstadoInicial mostrarSolucao comHash heuristica");
                 System.out.println("Falha");
                 ex.printStackTrace();
                 System.exit(1);
             }
         }
-        System.out.printf("Algoritmo[%s] Tamanho [%d] Heuristica [%s] Embaralhado %d vezes \n ", opcao.toString(), tabuleiro, heuristic, embaralhar);
+        System.out.printf("Algoritmo[%s] Tamanho [%d] Heuristica [%s] Embaralhado %d vezes     hash[%b] \n ", opcao.toString(), tabuleiro, heuristic, embaralhar, comHash);
         Observator observador = new Observator(opcao, tabuleiro, embaralhar, tempoEmMinutos);
         switch (opcao) {
             case ASTAR:
-                Execute.aStarSearch(observador, true, mostrarEstadoInicial, mostrarSolucao, heuristic);
+                Execute.aStarSearch(observador, true, mostrarEstadoInicial, mostrarSolucao, comHash, heuristic);
                 break;
 
         }

@@ -19,6 +19,7 @@ public abstract class BasicSearch {
     protected final BoardState beginState;
     protected final boolean isShuffle;
     protected final Set hashTable = new HashSet();
+    protected final boolean withHash;
 
     /**
      * Construtor basico para busca no quebra-cabeça deslizante
@@ -27,13 +28,15 @@ public abstract class BasicSearch {
      * servirão ao relatório
      * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a
      * repetição de ir e vir da mesma peça)
+     * @param withHash usa tabela de hash para evitar movimentos já avaliados
      */
-    public BasicSearch(Observator observator, boolean isShuffle) {
+    public BasicSearch(Observator observator, boolean isShuffle, boolean withHash) {
         this.observator = observator;
         this.board = new Board(observator.getSize());
         this.beginState = this.board.shuffle(observator.getShuffle());
         this.hashTable.add(beginState);
         this.isShuffle = isShuffle;
+        this.withHash = withHash;
     }
 
     public abstract List<BoardState> run();

@@ -24,9 +24,10 @@ public class BreadthFirstSearch extends BasicSearch {
      * servirão ao relatório
      * @param isShuffle embaralhar qual candidato é visitável primeiro (reduz a
      * repetição de ir e vir da mesma peça)
+     * @param withHash usa tabela de hash para evitar movimentos já avaliados
      */
-    public BreadthFirstSearch(Observator observator, boolean isShuffle) {
-        super(observator, isShuffle);
+    public BreadthFirstSearch(Observator observator, boolean isShuffle, boolean withHash) {
+        super(observator, isShuffle, withHash);
     }
 
     @Override
@@ -48,13 +49,20 @@ public class BreadthFirstSearch extends BasicSearch {
                     Element[] findCandidates = this.board.findCandidates(testState, isShuffle);
                     for (Element possibilidade : findCandidates) {
                         BoardState move = this.board.move(possibilidade, testState);
-                        if (!this.hashTable.contains(move)) {
+                        if (withHash) {
+                            if (!this.hashTable.contains(move)) {
+                                move.setHeight(nivel);
+                                move.setFather(testState);
+                                this.hashTable.add(move);
+                                lista.add(move);
+                            } else {
+                                observator.setHashColision(hashColision++);
+                            }
+                        } else {
                             move.setHeight(nivel);
                             move.setFather(testState);
                             this.hashTable.add(move);
                             lista.add(move);
-                        } else {
-                            observator.setHashColision(hashColision++);
                         }
                     }
                     observator.setChangePath(nivel);
