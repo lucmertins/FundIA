@@ -30,7 +30,7 @@ public class DepthFirstSearch extends BasicSearch {
      */
     public DepthFirstSearch(Observator observator, boolean isShuffle, boolean withHash) {
         super(observator, isShuffle, withHash);
-        this.limitRamo = observator.getShuffle() * 10000;
+        this.limitRamo = observator.getShuffle();// * 10000;
     }
 
     @Override
