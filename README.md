@@ -6,12 +6,12 @@ ferramenta utilizada foi o Netbeans 8.1 e o JDK 1.8.0
 
 
 
-java -jar BuscaExaustiva/target/BuscaExaustiva DFS|BFS|IDS tamanhoTabuleiro vezesEmbaralhado tempoMaximoAlgoritmo MostrarEstadoInicial MostrarSoluçãoEncontrada heuristica
+java -jar BuscaExaustiva/target/BuscaExaustiva DFS|BFS|IDS tamanhoTabuleiro vezesEmbaralhado tempoMaximoAlgoritmo MostrarEstadoInicial MostrarSoluçãoEncontrada comHash
 
 
 Para executar busca exaustiva:
 
-    java -Xms6144m -Xmx6144m -jar BuscaExaustiva/target/BuscaExaustiva-1.0.jar IDS 3 400 5 false false
+    java -Xms6144m -Xmx6144m -jar BuscaExaustiva/target/BuscaExaustiva-1.0.jar IDS 3 400 5 false false false
 
 Onde:
     1 parametro é o algoritmo:  DFS|BFS|IDS
@@ -20,13 +20,13 @@ Onde:
     4 parametro é a tempo máximo de duração do algoritmo
     5 paremetro é a solicitação para mostrar ou não o estado inicial após embaralhado
     6 paremetro é a solicitação para mostrar ou não a solução encontrada
-
+    7 parametro é a indicação para usar ou não controle via hash de movimentos já avaliados
 
 
 
 Para executar busca com Heurística:
 
-    java -Xms6144m -Xmx6144m -jar BuscaComHeuristica/target/BuscaComHeuristica-1.0.jar ASTAR 3 40 5 false false MANHATAN
+    java -Xms6144m -Xmx6144m -jar BuscaComHeuristica/target/BuscaComHeuristica-1.0.jar ASTAR 3 40 5 false false false MANHATAN
 
 Onde:
     1 parametro é o algoritmo:  ASTAR
@@ -35,7 +35,8 @@ Onde:
     4 parametro é a tempo máximo de duração do algoritmo
     5 paremetro é a solicitação para mostrar ou não o estado inicial após embaralhado
     6 paremetro é a solicitação para mostrar ou não a solução encontrada
-    7 parametro é a heuristica MANHATAN|HAMMING
+    7 parametro é a indicação para usar ou não controle via hash de movimentos já avaliados
+    8 parametro é a heuristica MANHATAN|HAMMING
 
 
 
