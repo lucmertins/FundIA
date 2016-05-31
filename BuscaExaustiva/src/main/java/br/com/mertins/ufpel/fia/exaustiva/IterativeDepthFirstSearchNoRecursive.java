@@ -11,7 +11,7 @@ import java.util.Stack;
  *
  * @author mertins
  */
-public class IterativeDepthFirstSearch extends BasicSearch {
+public class IterativeDepthFirstSearchNoRecursive extends BasicSearch {
 
     private long hashColision = 0;
     private final int limitRamo;
@@ -26,7 +26,7 @@ public class IterativeDepthFirstSearch extends BasicSearch {
      * repetição de ir e vir da mesma peça)
      * @param withHash usa tabela de hash para evitar movimentos já avaliados
      */
-    public IterativeDepthFirstSearch(Observator observator, boolean isShuffle, boolean withHash) {
+    public IterativeDepthFirstSearchNoRecursive(Observator observator, boolean isShuffle, boolean withHash) {
         super(observator, isShuffle, withHash);
         this.limitRamo = observator.getShuffle();
     }
