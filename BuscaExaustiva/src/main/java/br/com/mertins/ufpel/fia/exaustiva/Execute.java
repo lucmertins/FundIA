@@ -87,38 +87,13 @@ public class Execute {
         }).start();
     }
 
-    public static void iterativeDepthSearchNoRec(final Observator observador, final boolean isShuffle, final boolean showInitialState, boolean showSolution, boolean withHash) {
-        new Thread(() -> {
-            IterativeDepthFirstSearchNoRecursive search = new IterativeDepthFirstSearchNoRecursive(observador, isShuffle, withHash);
-            try {
-                if (showInitialState) {
-                    System.out.println("***************** Estado Inicial Iterative Depth First Search **********");
-                    search.print(search.getBeginState());
-                }
-                List<BoardState> solucao = search.run();
-                if (showSolution) {
-                    System.out.println("***************** Solução **********");
-                    search.print(solucao);
-                }
-                System.out.printf("***************** Movimentos [%d]\n", solucao.size());
-            } catch (Exception ex) {
-                System.out.println("***************** Falha **********");
-                ex.printStackTrace();
-            }
-            for (Event evento : observador.getEvents()) {
-                System.out.println(evento.toString());
-            }
-            System.out.printf("Tempo de execução [%s]\n", search.time(observador.difference()));
-        }).start();
-    }
-
     public static void main(String[] args) {
         Observator.ALGORITHMS opcao = Observator.ALGORITHMS.IDS;
         int tabuleiro = 3;
-        int embaralhar = 500;
+        int embaralhar = 5000;
         int tempoEmMinutos = 5;
-        boolean mostrarEstadoInicial = true;
-        boolean mostrarSolucao = true;
+        boolean mostrarEstadoInicial = false;
+        boolean mostrarSolucao = false;
         boolean comHash = false;
         if (args.length == 7) {
             try {

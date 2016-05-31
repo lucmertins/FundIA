@@ -53,6 +53,8 @@ public class IterativeDepthFirstSearch extends BasicSearch {
     }
 
     public List<BoardState> dfs(int max) {
+        this.hashTable.clear();
+        this.hashTable.add(beginState);
         Stack<BoardState> pilha = new Stack<>();
         pilha.add(beginState);
         int nivel = 0;
