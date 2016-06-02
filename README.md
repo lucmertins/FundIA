@@ -1,5 +1,5 @@
 # FundIA
-Exercícos e trabalhos da disciplina de Fundamentos de Inteligência Artificial do PPGC da UFPel
+Exercícos e trabalhos da disciplina de Fundamentos de Inteligência Artificial do PPGC da UFPel - 2016/01
 
 O projeto esta escrito em Java com Maven, sendo operacional em qualquer ferramenta de desenvolvimento. Entretanto a 
 ferramenta utilizada foi o Netbeans 8.1 e o JDK 1.8.0
@@ -14,6 +14,7 @@ Para executar busca exaustiva:
     java -Xms6144m -Xmx6144m -jar BuscaExaustiva/target/BuscaExaustiva-1.0.jar IDS 3 400 5 false false false
 
 Onde:
+
     1 parametro é o algoritmo:  DFS|BFS|IDS
 
     2 parametro é o tamanho do tabuleiro
@@ -39,6 +40,7 @@ Para executar busca com Heurística:
     java -Xms6144m -Xmx6144m -jar BuscaComHeuristica/target/BuscaComHeuristica-1.0.jar ASTAR 3 40 5 false false false MANHATAN
 
 Onde:
+
     1 parametro é o algoritmo:  ASTAR
 
     2 parametro é o tamanho do tabuleiro
@@ -64,6 +66,7 @@ Para executar o Minimax
     java -Xms6144m -Xmx6144m -jar BuscaCompetitiva/target/BuscaCompetitiva-1.0.jar MINIMAX 9
 
 Onde:
+
     1 parametro é o algoritmo:  MINIMAX
 
     2 parametro é a profundidade máxima de busca
